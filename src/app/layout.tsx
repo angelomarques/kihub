@@ -5,6 +5,7 @@ import { Logo } from "@/assets/logo";
 import Link from "next/link";
 import { UserIcon } from "@heroicons/react/20/solid";
 import { Sidebar } from "./_components/sidebar";
+import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={clsx(inter.className, "dark")}>
         <Header />
         {children}
       </body>
@@ -33,7 +34,7 @@ function Header() {
     <header className="flex items-center justify-center p-4">
       <Sidebar />
 
-      <Link href="/" className="mr-auto -ml-8">
+      <Link href="/" className="mr-auto -ml-10">
         <Logo className="w-12 h-12" />
       </Link>
     </header>
