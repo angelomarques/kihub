@@ -4,6 +4,7 @@ import "./globals.css";
 import { Logo } from "@/assets/logo";
 import Link from "next/link";
 import { UserIcon } from "@heroicons/react/20/solid";
+import { Sidebar } from "./_components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,14 +28,14 @@ export default function RootLayout({
   );
 }
 
-const Header = () => {
+function Header() {
   return (
     <header className="flex items-center justify-center p-4">
-      <UserIcon className="w-8 h-8 mr-auto" />
+      <Sidebar />
 
       <Link href="/" className="mr-auto -ml-8">
         <Logo className="w-12 h-12" />
       </Link>
     </header>
   );
-};
+}
