@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Logo } from "@/assets/logo";
+import Link from "next/link";
+import { UserIcon } from "@heroicons/react/20/solid";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
+
+const Header = () => {
+  return (
+    <header className="flex items-center justify-center p-4">
+      <UserIcon className="w-8 h-8 mr-auto" />
+
+      <Link href="/" className="mr-auto -ml-8">
+        <Logo className="w-12 h-12" />
+      </Link>
+    </header>
+  );
+};

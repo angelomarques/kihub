@@ -1,6 +1,3 @@
-import { Logo } from "@/assets/logo";
-import Image from "next/image";
-
 export default function Home() {
-  return <Logo />;
+  return <div>Home Page</div>;
 }
