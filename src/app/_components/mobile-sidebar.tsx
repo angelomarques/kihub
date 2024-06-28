@@ -71,6 +71,9 @@ export function MobileSidebar() {
 
                     <span>Home</span>
                   </Link>
+                </li>
+
+                <li>
                   <Link
                     href="/profile"
                     className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"
@@ -83,6 +86,9 @@ export function MobileSidebar() {
 
                     <span>Profile</span>
                   </Link>
+                </li>
+
+                <li>
                   <Link
                     href="/logout"
                     className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"

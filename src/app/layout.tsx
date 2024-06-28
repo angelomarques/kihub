@@ -22,9 +22,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx(inter.className, "dark")}>
-        <Header />
-        <Sidebar />
-        {children}
+        <div className="flex items-center justify-center">
+          <div className="grid h-screen grid-cols-1 flex-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
+            <Sidebar />
+
+            <div className="w-full relative">
+              <Header />
+              {children}
+            </div>
+
+            <div className="hidden sm:block"></div>
+          </div>
+        </div>
       </body>
     </html>
   );
