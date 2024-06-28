@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import { MobileSidebar } from "./_components/mobile-sidebar";
 import "./globals.css";
+import { Sidebar } from "./_components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={clsx(inter.className, "dark")}>
         <Header />
+        <Sidebar />
         {children}
       </body>
     </html>

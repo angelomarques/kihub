@@ -59,7 +59,7 @@ export function MobileSidebar() {
                   <Link
                     href="/"
                     className={clsx(
-                      "flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/30 py-3",
+                      "flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3",
                       { "font-bold": isCurrentPath("/") }
                     )}
                   >
@@ -73,7 +73,7 @@ export function MobileSidebar() {
                   </Link>
                   <Link
                     href="/profile"
-                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/30 py-3"
+                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"
                   >
                     {isCurrentPath("/profile") ? (
                       <UserSolidIcon className="w-6 h-6" />
@@ -85,7 +85,7 @@ export function MobileSidebar() {
                   </Link>
                   <Link
                     href="/logout"
-                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/30 py-3"
+                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"
                   >
                     {isCurrentPath("/logout") ? (
                       <ArrowRightEndOnRectangleSolidIcon className="w-6 h-6" />
