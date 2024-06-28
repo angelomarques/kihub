@@ -1,11 +1,10 @@
+import { Logo } from "@/assets/logo";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Logo } from "@/assets/logo";
 import Link from "next/link";
-import { UserIcon } from "@heroicons/react/20/solid";
-import { Sidebar } from "./_components/sidebar";
-import clsx from "clsx";
+import { MobileSidebar } from "./_components/mobile-sidebar";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,8 +30,8 @@ export default function RootLayout({
 
 function Header() {
   return (
-    <header className="flex items-center justify-center p-4">
-      <Sidebar />
+    <header className="flex items-center justify-center p-4 sm:hidden">
+      <MobileSidebar />
 
       <Link href="/" className="mr-auto -ml-10">
         <Logo className="w-12 h-12" />

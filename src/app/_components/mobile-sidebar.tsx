@@ -2,21 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  UserIcon as UserSolidIcon,
   ArrowRightEndOnRectangleIcon as ArrowRightEndOnRectangleSolidIcon,
   HomeIcon as HomeSolidIcon,
+  UserIcon as UserSolidIcon,
 } from "@heroicons/react/20/solid";
 import {
-  UserIcon,
   ArrowRightEndOnRectangleIcon,
   HomeIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export function Sidebar() {
+export function MobileSidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
