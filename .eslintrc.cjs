@@ -5,7 +5,6 @@ const config = {
     project: true,
   },
   plugins: ["@typescript-eslint"],
-  ignore: ['.eslintrc.cjs', 'prettier.config.js'],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
