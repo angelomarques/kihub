@@ -11,6 +11,11 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    KINDE_CLIENT_ID: z.string(),
+    KINDE_CLIENT_SECRET: z.string(),
+    KINDE_ISSUER_URL: z.string().url(),
+    KINDE_POST_LOGOUT_REDIRECT_URL: z.string().url(),
+    KINDE_POST_LOGIN_REDIRECT_URL: z.string().url(),
   },
 
   /**
