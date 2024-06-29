@@ -3,8 +3,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
-    <div className="h-full overflow-y-scroll border-x border-x-zinc-100/20">
-      Home Page
+    <div className="h-full w-full overflow-y-scroll border-x border-x-zinc-100/20">
       <Button
         className="absolute bottom-4 right-4 shadow-lg sm:hidden"
         size="icon-lg"
