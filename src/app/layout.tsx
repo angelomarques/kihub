@@ -23,10 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={clsx(inter.className, "dark")}>
         <div className="flex items-center justify-center">
-          <div className="grid h-screen grid-cols-1 flex-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
+          <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
             <Sidebar />
 
-            <div className="w-full relative">
+            <div className="relative flex w-full">
               <Header />
               {children}
             </div>
@@ -44,8 +44,8 @@ function Header() {
     <header className="flex items-center justify-center p-4 sm:hidden">
       <MobileSidebar />
 
-      <Link href="/" className="mr-auto -ml-10">
-        <Logo className="w-12 h-12" />
+      <Link href="/" className="-ml-10 mr-auto">
+        <Logo className="h-12 w-12" />
       </Link>
     </header>
   );

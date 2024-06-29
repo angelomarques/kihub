@@ -32,25 +32,25 @@ export function MobileSidebar() {
     <>
       <Button
         variant="ghost"
-        className="mr-auto rounded-full w-10 h-10 px-1 py-1"
+        className="mr-auto h-10 w-10 rounded-full px-1 py-1"
         onClick={toggle}
       >
-        <UserIcon className="w-8 h-8" />
+        <UserIcon className="h-8 w-8" />
       </Button>
 
       {open && (
         <div className="fixed inset-0 flex">
-          <aside className="bg-zinc-950 h-full w-80 animate-slide-in border-r border-r-zinc-100/20">
-            <div className="py-4 px-3">
-              <UserSolidIcon className="w-10 h-10" />
+          <aside className="h-full w-80 animate-slide-in border-r border-r-zinc-100/20 bg-zinc-950">
+            <div className="px-3 py-4">
+              <UserSolidIcon className="h-10 w-10" />
 
               <Link
                 href="/angelomarques"
-                className="hover:underline font-medium mt-1.5 block"
+                className="mt-1.5 block font-medium hover:underline"
               >
                 Ângelo Marques
               </Link>
-              <p className="text-sm mt-1 text-zinc-400">@angelomarques</p>
+              <p className="mt-1 text-sm text-zinc-400">@angelomarques</p>
             </div>
 
             <nav className="mt-12">
@@ -59,14 +59,14 @@ export function MobileSidebar() {
                   <Link
                     href="/"
                     className={clsx(
-                      "flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3",
-                      { "font-bold": isCurrentPath("/") }
+                      "flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20",
+                      { "font-bold": isCurrentPath("/") },
                     )}
                   >
                     {isCurrentPath("/") ? (
-                      <HomeSolidIcon className="w-6 h-6" />
+                      <HomeSolidIcon className="h-6 w-6" />
                     ) : (
-                      <HomeIcon className="w-6 h-6" />
+                      <HomeIcon className="h-6 w-6" />
                     )}
 
                     <span>Home</span>
@@ -76,12 +76,12 @@ export function MobileSidebar() {
                 <li>
                   <Link
                     href="/profile"
-                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"
+                    className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20"
                   >
                     {isCurrentPath("/profile") ? (
-                      <UserSolidIcon className="w-6 h-6" />
+                      <UserSolidIcon className="h-6 w-6" />
                     ) : (
-                      <UserIcon className="w-6 h-6" />
+                      <UserIcon className="h-6 w-6" />
                     )}
 
                     <span>Profile</span>
@@ -91,12 +91,12 @@ export function MobileSidebar() {
                 <li>
                   <Link
                     href="/logout"
-                    className="flex items-center gap-5 text-lg px-3 hover:bg-zinc-600/20 py-3"
+                    className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20"
                   >
                     {isCurrentPath("/logout") ? (
-                      <ArrowRightEndOnRectangleSolidIcon className="w-6 h-6" />
+                      <ArrowRightEndOnRectangleSolidIcon className="h-6 w-6" />
                     ) : (
-                      <ArrowRightEndOnRectangleIcon className="w-6 h-6" />
+                      <ArrowRightEndOnRectangleIcon className="h-6 w-6" />
                     )}
 
                     <span>Log out</span>
@@ -107,7 +107,7 @@ export function MobileSidebar() {
           </aside>
 
           <div
-            className="bg-zinc-600/30 h-full flex-1 animate-fade-in"
+            className="h-full flex-1 animate-fade-in bg-zinc-600/30"
             onClick={toggle}
           />
         </div>

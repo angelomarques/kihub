@@ -25,9 +25,9 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="bg-zinc-950 h-full hidden sm:flex pl-6 py-8 flex-col">
+    <aside className="hidden h-full flex-col bg-zinc-950 py-8 pl-6 sm:flex">
       <Button variant="ghost" size="icon-lg" className="ml-4">
-        <Logo className="w-10 h-10" />
+        <Logo className="h-10 w-10" />
       </Button>
 
       <nav className="mt-12">
@@ -36,14 +36,14 @@ export function Sidebar() {
             <Link
               href="/"
               className={clsx(
-                "flex items-center gap-5 text-lg px-5 hover:bg-zinc-600/20 py-3 w-fit rounded-3xl",
-                { "font-bold": isCurrentPath("/") }
+                "flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20",
+                { "font-bold": isCurrentPath("/") },
               )}
             >
               {isCurrentPath("/") ? (
-                <HomeSolidIcon className="w-10 h-10" />
+                <HomeSolidIcon className="h-10 w-10" />
               ) : (
-                <HomeIcon className="w-10 h-10" />
+                <HomeIcon className="h-10 w-10" />
               )}
 
               <span className="hidden lg:inline">Home</span>
@@ -53,12 +53,12 @@ export function Sidebar() {
           <li>
             <Link
               href="/profile"
-              className="flex items-center gap-5 text-lg px-5 hover:bg-zinc-600/20 py-3 w-fit rounded-3xl"
+              className="flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20"
             >
               {isCurrentPath("/profile") ? (
-                <UserSolidIcon className="w-10 h-10" />
+                <UserSolidIcon className="h-10 w-10" />
               ) : (
-                <UserIcon className="w-10 h-10" />
+                <UserIcon className="h-10 w-10" />
               )}
 
               <span className="hidden lg:inline">Profile</span>
@@ -68,12 +68,12 @@ export function Sidebar() {
           <li>
             <Link
               href="/logout"
-              className="flex items-center gap-5 text-lg px-5 hover:bg-zinc-600/20 py-3 w-fit rounded-3xl"
+              className="flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20"
             >
               {isCurrentPath("/logout") ? (
-                <ArrowRightEndOnRectangleSolidIcon className="w-10 h-10" />
+                <ArrowRightEndOnRectangleSolidIcon className="h-10 w-10" />
               ) : (
-                <ArrowRightEndOnRectangleIcon className="w-10 h-10" />
+                <ArrowRightEndOnRectangleIcon className="h-10 w-10" />
               )}
 
               <span className="hidden lg:inline">Log out</span>
@@ -84,26 +84,26 @@ export function Sidebar() {
             <Link
               href="compose/post"
               className={buttonVariants({
-                className: "w-5/6 mt-3 py-3",
+                className: "mt-3 w-5/6 py-3",
               })}
             >
-              <PencilSquareIcon className="w-8 h-8 lg:hidden" />
+              <PencilSquareIcon className="h-8 w-8 lg:hidden" />
               <span className="hidden lg:inline">Post</span>
             </Link>
           </li>
         </ul>
       </nav>
 
-      <div className="flex gap-2 items-center mt-auto">
-        <UserSolidIcon className="w-10 h-10" />
+      <div className="mt-auto flex items-center gap-2">
+        <UserSolidIcon className="h-10 w-10" />
         <div className="hidden lg:block">
           <Link
             href="/angelomarques"
-            className="hover:underline font-medium mt-1.5 block"
+            className="mt-1.5 block font-medium hover:underline"
           >
             Ângelo Marques
           </Link>
-          <p className="text-sm mt-1 text-zinc-400">@angelomarques</p>
+          <p className="mt-1 text-sm text-zinc-400">@angelomarques</p>
         </div>
       </div>
     </aside>
