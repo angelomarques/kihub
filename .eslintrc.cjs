@@ -11,5 +11,8 @@ const config = {
     "plugin:@typescript-eslint/stylistic-type-checked",
     "prettier",
   ],
+  rules: {
+    "@typescript-eslint/no-empty-interface": "off",
+  },
 };
 module.exports = config;
