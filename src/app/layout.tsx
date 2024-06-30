@@ -1,18 +1,28 @@
 import { Logo } from "@/assets/logo";
-import { buttonVariants } from "@/components/ui/button";
-import { getUserByKindeId } from "@/server/users/queries";
-import { UserIcon as UserSolidIcon } from "@heroicons/react/20/solid";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { UserAvatar } from "@/components/user-avatar";
+import { getAuthenticatedUser } from "@/server/users/queries";
+import {
+  HomeIcon as HomeSolidIcon,
+  UserIcon as UserSolidIcon,
+} from "@heroicons/react/20/solid";
+import {
+  ArrowRightEndOnRectangleIcon,
+  HomeIcon,
+  PencilSquareIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import {
   getKindeServerSession,
   LoginLink,
+  LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Image from "next/image";
 import Link from "next/link";
 import { MobileSidebar } from "./_components/mobile-sidebar";
-import { Sidebar } from "./_components/sidebar";
+import { NavLink } from "./_components/nav-link";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -75,13 +85,7 @@ async function Header() {
 }
 
 async function UserInfo() {
-  const { getUser } = getKindeServerSession();
-
-  const kindeUser = await getUser();
-
-  if (!kindeUser) return null;
-
-  const user = await getUserByKindeId(kindeUser.id);
+  const user = await getAuthenticatedUser();
 
   if (!user) {
     return null;
@@ -89,17 +93,7 @@ async function UserInfo() {
 
   return (
     <div className="px-3 py-4">
-      {user.picture ? (
-        <Image
-          src={user.picture}
-          alt={user.username}
-          width={40}
-          height={40}
-          className="rounded-full object-contain"
-        />
-      ) : (
-        <UserSolidIcon className="h-10 w-10" />
-      )}
+      <UserAvatar picture={user.picture} username={user.username} />
 
       <Link
         href={`/${user.username}`}
@@ -109,5 +103,78 @@ async function UserInfo() {
       </Link>
       <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
     </div>
+  );
+}
+
+async function Sidebar() {
+  const user = await getAuthenticatedUser();
+
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <aside className="hidden h-full flex-col bg-zinc-950 py-8 pl-6 sm:flex">
+      <Button variant="ghost" size="icon-lg" className="ml-4">
+        <Logo className="h-10 w-10" />
+      </Button>
+
+      <nav className="mt-12">
+        <ul>
+          <li>
+            <NavLink
+              href="/"
+              icon={<HomeIcon className="h-10 w-10" />}
+              selectedIcon={<HomeSolidIcon className="h-10 w-10" />}
+            >
+              Home
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              href="/profile"
+              icon={<UserIcon className="h-10 w-10" />}
+              selectedIcon={<UserSolidIcon className="h-10 w-10" />}
+            >
+              Profile
+            </NavLink>
+          </li>
+
+          <li>
+            <LogoutLink className="flex w-fit items-center gap-5 rounded-xl px-5 py-3 text-lg hover:bg-zinc-600/20">
+              <ArrowRightEndOnRectangleIcon className="h-10 w-10" />
+
+              <span className="hidden lg:inline">Log out</span>
+            </LogoutLink>
+          </li>
+
+          <li>
+            <Link
+              href="compose/post"
+              className={buttonVariants({
+                className: "mt-3 w-5/6 py-3",
+              })}
+            >
+              <PencilSquareIcon className="h-8 w-8 lg:hidden" />
+              <span className="hidden lg:inline">Post</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div className="mt-auto flex items-center gap-2">
+        <UserAvatar picture={user.picture} username={user.username} />
+        <div className="hidden lg:block">
+          <Link
+            href={`/${user.username}`}
+            className="mt-1.5 block font-medium hover:underline"
+          >
+            {`${user.firstName} ${user.lastName}`}
+          </Link>
+          <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
+        </div>
+      </div>
+    </aside>
   );
 }

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function Home() {
   return (
@@ -10,6 +11,8 @@ export default function Home() {
       >
         <PencilSquareIcon className="h-8 w-8" />
       </Button>
+
+      <LogoutLink>logout</LogoutLink>
     </div>
   );
 }
