@@ -13,6 +13,7 @@ import {
   UserIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,7 +37,7 @@ export function Sidebar() {
             <Link
               href="/"
               className={clsx(
-                "flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20",
+                "flex w-fit items-center gap-5 rounded-xl px-5 py-3 text-lg hover:bg-zinc-600/20",
                 { "font-bold": isCurrentPath("/") },
               )}
             >
@@ -53,7 +54,7 @@ export function Sidebar() {
           <li>
             <Link
               href="/profile"
-              className="flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20"
+              className="flex w-fit items-center gap-5 rounded-xl px-5 py-3 text-lg hover:bg-zinc-600/20"
             >
               {isCurrentPath("/profile") ? (
                 <UserSolidIcon className="h-10 w-10" />
@@ -66,10 +67,7 @@ export function Sidebar() {
           </li>
 
           <li>
-            <Link
-              href="/logout"
-              className="flex w-fit items-center gap-5 rounded-3xl px-5 py-3 text-lg hover:bg-zinc-600/20"
-            >
+            <LogoutLink className="flex w-fit items-center gap-5 rounded-xl px-5 py-3 text-lg hover:bg-zinc-600/20">
               {isCurrentPath("/logout") ? (
                 <ArrowRightEndOnRectangleSolidIcon className="h-10 w-10" />
               ) : (
@@ -77,7 +75,7 @@ export function Sidebar() {
               )}
 
               <span className="hidden lg:inline">Log out</span>
-            </Link>
+            </LogoutLink>
           </li>
 
           <li>

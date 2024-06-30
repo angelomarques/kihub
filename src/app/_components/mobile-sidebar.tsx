@@ -11,6 +11,7 @@ import {
   HomeIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -89,10 +90,7 @@ export function MobileSidebar() {
                 </li>
 
                 <li>
-                  <Link
-                    href="/logout"
-                    className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20"
-                  >
+                  <LogoutLink className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20">
                     {isCurrentPath("/logout") ? (
                       <ArrowRightEndOnRectangleSolidIcon className="h-6 w-6" />
                     ) : (
@@ -100,7 +98,7 @@ export function MobileSidebar() {
                     )}
 
                     <span>Log out</span>
-                  </Link>
+                  </LogoutLink>
                 </li>
               </ul>
             </nav>

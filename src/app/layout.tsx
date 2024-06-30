@@ -26,7 +26,7 @@ export default function RootLayout({
           <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
             <Sidebar />
 
-            <div className="relative flex w-full">
+            <div className="w-full">
               <Header />
               {children}
             </div>
