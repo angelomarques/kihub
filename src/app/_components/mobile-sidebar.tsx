@@ -10,14 +10,19 @@ import {
   ArrowRightEndOnRectangleIcon,
   HomeIcon,
   UserIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
-export function MobileSidebar() {
+interface Props {
+  children: ReactNode;
+}
+
+export function MobileSidebar({ children }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -36,23 +41,13 @@ export function MobileSidebar() {
         className="mr-auto h-10 w-10 rounded-full px-1 py-1"
         onClick={toggle}
       >
-        <UserIcon className="h-8 w-8" />
+        <Bars3Icon className="h-8 w-8" />
       </Button>
 
       {open && (
         <div className="fixed inset-0 flex">
           <aside className="h-full w-80 animate-slide-in border-r border-r-zinc-100/20 bg-zinc-950">
-            <div className="px-3 py-4">
-              <UserSolidIcon className="h-10 w-10" />
-
-              <Link
-                href="/angelomarques"
-                className="mt-1.5 block font-medium hover:underline"
-              >
-                Ângelo Marques
-              </Link>
-              <p className="mt-1 text-sm text-zinc-400">@angelomarques</p>
-            </div>
+            {children}
 
             <nav className="mt-12">
               <ul>

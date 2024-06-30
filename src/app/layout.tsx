@@ -1,7 +1,15 @@
 import { Logo } from "@/assets/logo";
+import { buttonVariants } from "@/components/ui/button";
+import { getUserByKindeId } from "@/server/users/queries";
+import { UserIcon as UserSolidIcon } from "@heroicons/react/20/solid";
+import {
+  getKindeServerSession,
+  LoginLink,
+} from "@kinde-oss/kinde-auth-nextjs/server";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import { MobileSidebar } from "./_components/mobile-sidebar";
 import { Sidebar } from "./_components/sidebar";
@@ -39,14 +47,67 @@ export default function RootLayout({
   );
 }
 
-function Header() {
+async function Header() {
+  const { isAuthenticated: getAuthenticaticationState } =
+    getKindeServerSession();
+
+  const isAuthenticated = await getAuthenticaticationState();
+
   return (
     <header className="flex items-center justify-center p-4 sm:hidden">
-      <MobileSidebar />
+      <MobileSidebar>
+        {isAuthenticated ? (
+          <UserInfo />
+        ) : (
+          <LoginLink
+            className={buttonVariants({ className: "mx-3 my-4 w-5/6" })}
+          >
+            Log in
+          </LoginLink>
+        )}
+      </MobileSidebar>
 
       <Link href="/" className="-ml-10 mr-auto">
         <Logo className="h-12 w-12" />
       </Link>
     </header>
+  );
+}
+
+async function UserInfo() {
+  const { getUser } = getKindeServerSession();
+
+  const kindeUser = await getUser();
+
+  if (!kindeUser) return null;
+
+  const user = await getUserByKindeId(kindeUser.id);
+
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <div className="px-3 py-4">
+      {user.picture ? (
+        <Image
+          src={user.picture}
+          alt={user.username}
+          width={40}
+          height={40}
+          className="rounded-full object-contain"
+        />
+      ) : (
+        <UserSolidIcon className="h-10 w-10" />
+      )}
+
+      <Link
+        href={`/${user.username}`}
+        className="mt-1.5 block font-medium hover:underline"
+      >
+        {`${user.firstName} ${user.lastName}`}
+      </Link>
+      <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
+    </div>
   );
 }
