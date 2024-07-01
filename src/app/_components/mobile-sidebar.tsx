@@ -1,6 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { UserAvatar } from "@/components/user-avatar";
+import { UsersTable } from "@/server/db/types";
 import {
   ArrowRightEndOnRectangleIcon as ArrowRightEndOnRectangleSolidIcon,
   HomeIcon as HomeSolidIcon,
@@ -8,21 +10,21 @@ import {
 } from "@heroicons/react/20/solid";
 import {
   ArrowRightEndOnRectangleIcon,
+  Bars3Icon,
   HomeIcon,
   UserIcon,
-  Bars3Icon,
 } from "@heroicons/react/24/outline";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 interface Props {
-  children: ReactNode;
+  user: UsersTable | null;
 }
 
-export function MobileSidebar({ children }: Props) {
+export function MobileSidebar({ user }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -47,7 +49,25 @@ export function MobileSidebar({ children }: Props) {
       {open && (
         <div className="fixed inset-0 flex">
           <aside className="h-full w-80 animate-slide-in border-r border-r-zinc-100/20 bg-zinc-950">
-            {children}
+            {user ? (
+              <div className="px-3 py-4">
+                <UserAvatar picture={user.picture} username={user.username} />
+
+                <Link
+                  href={`/${user.username}`}
+                  className="mt-1.5 block font-medium hover:underline"
+                >
+                  {`${user.firstName} ${user.lastName}`}
+                </Link>
+                <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
+              </div>
+            ) : (
+              <LoginLink
+                className={buttonVariants({ className: "mx-3 my-4 w-5/6" })}
+              >
+                Log in
+              </LoginLink>
+            )}
 
             <nav className="mt-12">
               <ul>

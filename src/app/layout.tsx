@@ -12,11 +12,7 @@ import {
   PencilSquareIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import {
-  getKindeServerSession,
-  LoginLink,
-  LogoutLink,
-} from "@kinde-oss/kinde-auth-nextjs/server";
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -58,24 +54,11 @@ export default function RootLayout({
 }
 
 async function Header() {
-  const { isAuthenticated: getAuthenticaticationState } =
-    getKindeServerSession();
-
-  const isAuthenticated = await getAuthenticaticationState();
+  const user = await getAuthenticatedUser();
 
   return (
     <header className="flex items-center justify-center p-4 sm:hidden">
-      <MobileSidebar>
-        {isAuthenticated ? (
-          <UserInfo />
-        ) : (
-          <LoginLink
-            className={buttonVariants({ className: "mx-3 my-4 w-5/6" })}
-          >
-            Log in
-          </LoginLink>
-        )}
-      </MobileSidebar>
+      <MobileSidebar user={user} />
 
       <Link href="/" className="-ml-10 mr-auto">
         <Logo className="h-12 w-12" />
@@ -84,34 +67,8 @@ async function Header() {
   );
 }
 
-async function UserInfo() {
-  const user = await getAuthenticatedUser();
-
-  if (!user) {
-    return null;
-  }
-
-  return (
-    <div className="px-3 py-4">
-      <UserAvatar picture={user.picture} username={user.username} />
-
-      <Link
-        href={`/${user.username}`}
-        className="mt-1.5 block font-medium hover:underline"
-      >
-        {`${user.firstName} ${user.lastName}`}
-      </Link>
-      <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
-    </div>
-  );
-}
-
 async function Sidebar() {
   const user = await getAuthenticatedUser();
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <aside className="hidden h-full flex-col bg-zinc-950 py-8 pl-6 sm:flex">
@@ -163,18 +120,26 @@ async function Sidebar() {
         </ul>
       </nav>
 
-      <div className="mt-auto flex items-center gap-2">
-        <UserAvatar picture={user.picture} username={user.username} />
-        <div className="hidden lg:block">
-          <Link
-            href={`/${user.username}`}
-            className="mt-1.5 block font-medium hover:underline"
-          >
-            {`${user.firstName} ${user.lastName}`}
-          </Link>
-          <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
+      {user ? (
+        <div className="mt-auto flex items-center gap-2">
+          <UserAvatar picture={user.picture} username={user.username} />
+          <div className="hidden lg:block">
+            <Link
+              href={`/${user.username}`}
+              className="mt-1.5 block font-medium hover:underline"
+            >
+              {`${user.firstName} ${user.lastName}`}
+            </Link>
+            <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <LoginLink
+          className={buttonVariants({ className: "my-4 mt-auto w-5/6" })}
+        >
+          Log in
+        </LoginLink>
+      )}
     </aside>
   );
 }
