@@ -1,4 +1,4 @@
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { getKindeUser } from "@/lib/kinde";
 import { db } from "../db";
 
 function getUserByKindeId(kindeId: string) {
@@ -8,9 +8,7 @@ function getUserByKindeId(kindeId: string) {
 }
 
 export async function getAuthenticatedUser() {
-  const { getUser } = getKindeServerSession();
-
-  const kindeUser = await getUser();
+  const kindeUser = await getKindeUser();
 
   if (!kindeUser) return null;
 

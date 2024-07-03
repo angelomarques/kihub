@@ -1,12 +1,11 @@
+import { getKindeUser } from "@/lib/kinde";
 import { db } from "@/server/db";
 import { users } from "@/server/db/schema";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 
 export async function GET() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const user = await getKindeUser();
 
   if (!user?.id)
     throw new Error(
