@@ -1,9 +1,10 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTableCreator,
   serial,
   timestamp,
@@ -33,9 +34,39 @@ export const users = createTable(
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: timestamp("updatedAt", { withTimezone: true }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.firstName),
   }),
 );
+
+export const posts = createTable(
+  "posts",
+  {
+    id: serial("id").primaryKey(),
+    content: varchar("content", { length: 1024 }).notNull(),
+    authorId: integer("author_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+    likes: integer("likes").default(0).notNull(),
+  },
+  (example) => ({
+    authorIndex: index("author_id_idx").on(example.authorId),
+  }),
+);
+
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts),
+}));
+
+export const postsRelations = relations(posts, ({ one }) => ({
+  author: one(users, {
+    fields: [posts.authorId],
+    references: [users.id],
+  }),
+}));
+
+// https://orm.drizzle.team/docs/rqb
