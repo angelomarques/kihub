@@ -26,12 +26,15 @@ export function PostForm({ user }: Props) {
       <div className="flex w-full gap-4">
         <UserAvatar picture={user?.picture} username={user?.username} />
         <div className="w-full flex-1">
-          <textarea
-            className="w-full flex-1 resize-none border-x-0 border-b border-t-0 border-zinc-100/20 bg-transparent pb-3 outline-none"
-            placeholder="Tell me something..."
-            onChange={handleChange}
-            value={content}
-          ></textarea>
+          <div className="grow-wrap" data-replicated-value={content}>
+            <textarea
+              className=""
+              placeholder="Tell me something..."
+              onChange={handleChange}
+              value={content}
+              rows={1}
+            ></textarea>
+          </div>
           <Progress
             className="mt-2 h-1"
             value={progress}
