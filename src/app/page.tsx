@@ -1,9 +1,11 @@
+import { PostForm } from "@/components/post-form";
 import { Button } from "@/components/ui/button";
-import { UserAvatar } from "@/components/user-avatar";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getAuthenticatedUser();
+
   return (
     <div className="h-full w-full overflow-y-scroll border-x border-x-zinc-100/20">
       <Button
@@ -13,24 +15,7 @@ export default function Home() {
         <PencilSquareIcon className="h-8 w-8" />
       </Button>
 
-      <PostForm />
-    </div>
-  );
-}
-
-async function PostForm() {
-  const user = await getAuthenticatedUser();
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4">
-      <div className="flex w-full gap-4">
-        <UserAvatar picture={user?.picture} username={user?.username} />
-        <textarea
-          className="w-full flex-1 resize-none border-x-0 border-b border-t-0 border-zinc-100/20 bg-transparent pb-3 outline-none"
-          placeholder="Tell me something..."
-        ></textarea>
-      </div>
-      <Button className="ml-auto">Submit</Button>
+      <PostForm user={user} />
     </div>
   );
 }
