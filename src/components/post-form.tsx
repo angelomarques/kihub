@@ -1,40 +1,66 @@
 "use client";
 
+import {
+  MAX_POST_CONTENT_LENGTH,
+  PostFormSchema,
+  PostFormSchemaType,
+} from "@/lib/schemas/post-form";
 import { UsersTable } from "@/server/db/types";
-import { ChangeEventHandler, useState } from "react";
-import { UserAvatar } from "./user-avatar";
-import { Progress } from "./ui/progress";
-import { Button } from "./ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { Button } from "./ui/button";
+import { Progress } from "./ui/progress";
+import { UserAvatar } from "./user-avatar";
 
 interface Props {
   user: UsersTable | null;
 }
 
 export function PostForm({ user }: Props) {
-  const maxPostLength = 280;
-  const [content, setContent] = useState("");
-  const rawProgress = (content.length / maxPostLength) * 100;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<PostFormSchemaType>({
+    resolver: zodResolver(PostFormSchema),
+  });
+
+  const content = watch("content") ?? "";
+  const rawProgress = (content.length / MAX_POST_CONTENT_LENGTH) * 100;
   const progress = rawProgress > 100 ? 100 : rawProgress;
 
-  const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setContent(e.target.value);
-  };
+  function onSubmit(data: PostFormSchemaType) {
+    console.log(data);
+  }
+
+  useEffect(() => {
+    if (errors.content?.message) {
+      toast.error(errors.content.message);
+    }
+  }, [errors.content?.message]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4">
       <div className="flex w-full gap-4">
         <UserAvatar picture={user?.picture} username={user?.username} />
         <div className="w-full flex-1">
-          <div className="grow-wrap" data-replicated-value={content}>
+          <form
+            id="post-form"
+            className="grow-wrap"
+            data-replicated-value={content}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <textarea
               className=""
               placeholder="Tell me something..."
-              onChange={handleChange}
-              value={content}
               rows={1}
+              {...register("content")}
             ></textarea>
-          </div>
+          </form>
           <Progress
             className="mt-2 h-1"
             value={progress}
@@ -43,7 +69,13 @@ export function PostForm({ user }: Props) {
         </div>
       </div>
       <div className="flex w-full items-center justify-end gap-2">
-        <Button className="ml-auto">Submit</Button>
+        <Button
+          disabled={!!errors.content?.message}
+          className="ml-auto"
+          form="post-form"
+        >
+          Submit
+        </Button>
       </div>
     </div>
   );

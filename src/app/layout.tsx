@@ -20,6 +20,7 @@ import Link from "next/link";
 import { MobileSidebar } from "./_components/mobile-sidebar";
 import { NavLink } from "./_components/nav-link";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default function RootLayout({
             <div className="hidden sm:block"></div>
           </div>
         </div>
+        <Toaster />
       </body>
     </html>
   );
