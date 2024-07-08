@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/server/db";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kihub | Home",
+};
 
 export default async function Home() {
   const user = await getAuthenticatedUser();
