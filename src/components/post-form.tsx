@@ -39,6 +39,10 @@ export function PostForm({ user }: Props) {
       reset();
       router.refresh();
     },
+    onError: (error) => {
+      const { response } = error;
+      toast.error(response?.data ?? "Something went wrong");
+    },
   });
 
   const content = watch("content") ?? "";
