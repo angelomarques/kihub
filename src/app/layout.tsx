@@ -21,7 +21,7 @@ import { MobileSidebar } from "./_components/mobile-sidebar";
 import { NavLink } from "./_components/nav-link";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { Providers } from "@/components/providers";
+import { Providers } from "./_components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
