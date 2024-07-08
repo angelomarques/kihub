@@ -15,12 +15,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { content } = PostFormSchema.parse(body);
 
-    const post = await db.insert(posts).values({
+    await db.insert(posts).values({
       authorId: user.id,
       content: content,
     });
 
-    return Response.json(post);
+    return new Response(null, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
       return new Response(JSON.stringify(error.flatten()), { status: 422 });

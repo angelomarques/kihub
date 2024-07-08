@@ -14,19 +14,31 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 import { UserAvatar } from "./user-avatar";
+import { useCreatePostMutation } from "@/service/posts";
+import { useRouter } from "next/navigation";
 
 interface Props {
   user: UsersTable | null;
 }
 
 export function PostForm({ user }: Props) {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm<PostFormSchemaType>({
     resolver: zodResolver(PostFormSchema),
+  });
+
+  const { mutate: createPost, isPending } = useCreatePostMutation({
+    onSuccess: () => {
+      reset();
+      router.refresh();
+    },
   });
 
   const content = watch("content") ?? "";
@@ -34,7 +46,7 @@ export function PostForm({ user }: Props) {
   const progress = rawProgress > 100 ? 100 : rawProgress;
 
   function onSubmit(data: PostFormSchemaType) {
-    console.log(data);
+    createPost(data);
   }
 
   useEffect(() => {
@@ -73,6 +85,7 @@ export function PostForm({ user }: Props) {
           disabled={!!errors.content?.message}
           className="ml-auto"
           form="post-form"
+          isLoading={isPending}
         >
           Submit
         </Button>

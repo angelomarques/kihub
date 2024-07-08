@@ -21,6 +21,7 @@ import { MobileSidebar } from "./_components/mobile-sidebar";
 import { NavLink } from "./_components/nav-link";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Providers } from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,21 +37,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(inter.className, "dark")}>
-        <div className="flex items-center justify-center">
-          <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
-            <Sidebar />
+      <Providers>
+        <body className={clsx(inter.className, "dark")}>
+          <div className="flex items-center justify-center">
+            <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
+              <Sidebar />
 
-            <div className="w-full">
-              <Header />
-              {children}
+              <div className="w-full">
+                <Header />
+                {children}
+              </div>
+
+              <div className="hidden sm:block"></div>
             </div>
-
-            <div className="hidden sm:block"></div>
           </div>
-        </div>
-        <Toaster />
-      </body>
+          <Toaster />
+        </body>
+      </Providers>
     </html>
   );
 }
