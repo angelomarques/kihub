@@ -1,6 +1,7 @@
+import { Post } from "@/components/post";
 import { PostForm } from "@/components/post-form";
 import { Button } from "@/components/ui/button";
-import { db } from "@/server/db";
+import { getPosts } from "@/server/posts/queries";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const user = await getAuthenticatedUser();
 
-  const posts = await db.query.posts.findMany();
+  const posts = await getPosts();
 
   return (
     <div className="h-full w-full overflow-y-scroll border-x border-x-zinc-100/20">
@@ -26,7 +27,7 @@ export default async function Home() {
       <PostForm user={user} />
 
       {posts.map((post) => (
-        <div key={post.id}>{post.content}</div>
+        <Post key={post.id} data={post} />
       ))}
     </div>
   );
