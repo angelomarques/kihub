@@ -19,9 +19,10 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   user: UsersTable | null;
+  onSuccess?: () => void;
 }
 
-export function PostForm({ user }: Props) {
+export function PostForm({ user, onSuccess }: Props) {
   const router = useRouter();
 
   const {
@@ -37,6 +38,11 @@ export function PostForm({ user }: Props) {
   const { mutate: createPost, isPending } = useCreatePostMutation({
     onSuccess: () => {
       reset();
+
+      if (onSuccess) {
+        onSuccess();
+      }
+
       router.refresh();
     },
     onError: (error) => {
@@ -60,23 +66,21 @@ export function PostForm({ user }: Props) {
   }, [errors.content?.message]);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4"
+    >
       <div className="flex w-full gap-4">
         <UserAvatar picture={user?.picture} username={user?.username} />
         <div className="w-full flex-1">
-          <form
-            id="post-form"
-            className="grow-wrap"
-            data-replicated-value={content}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <div className="grow-wrap" data-replicated-value={content}>
             <textarea
               className=""
               placeholder="Tell me something..."
               rows={1}
               {...register("content")}
             ></textarea>
-          </form>
+          </div>
           <Progress
             className="mt-2 h-1"
             value={progress}
@@ -88,12 +92,12 @@ export function PostForm({ user }: Props) {
         <Button
           disabled={!!errors.content?.message}
           className="ml-auto"
-          form="post-form"
+          type="submit"
           isLoading={isPending}
         >
           Submit
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

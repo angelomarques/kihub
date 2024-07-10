@@ -22,6 +22,7 @@ import { NavLink } from "./_components/nav-link";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "./_components/providers";
+import { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,11 +32,12 @@ export const metadata: Metadata = {
   icons: ["/kihub.svg"],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface Props {
+  children: ReactNode;
+  modal: ReactNode;
+}
+
+export default function RootLayout({ children, modal }: Props) {
   return (
     <html lang="en">
       <Providers>
@@ -47,6 +49,7 @@ export default function RootLayout({
               <div className="w-full">
                 <Header />
                 {children}
+                {modal}
               </div>
 
               <div className="hidden sm:block"></div>
