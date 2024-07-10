@@ -20,9 +20,10 @@ import { useRouter } from "next/navigation";
 interface Props {
   user: UsersTable | null;
   onSuccess?: () => void;
+  className?: string;
 }
 
-export function PostForm({ user, onSuccess }: Props) {
+export function PostForm({ user, onSuccess, className = "" }: Props) {
   const router = useRouter();
 
   const {
@@ -68,7 +69,10 @@ export function PostForm({ user, onSuccess }: Props) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4"
+      className={clsx(
+        "flex flex-col items-center justify-center gap-4 border-b border-b-zinc-100/20 p-4",
+        className,
+      )}
     >
       <div className="flex w-full gap-4">
         <UserAvatar picture={user?.picture} username={user?.username} />

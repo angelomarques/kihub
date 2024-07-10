@@ -46,7 +46,7 @@ export default function RootLayout({ children, modal }: Props) {
             <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
               <Sidebar />
 
-              <div className="w-full">
+              <div className="w-full border-x border-x-zinc-100/20">
                 <Header />
                 {children}
                 {modal}
@@ -66,7 +66,7 @@ async function Header() {
   const user = await getAuthenticatedUser();
 
   return (
-    <header className="flex items-center justify-center p-4 sm:hidden">
+    <header className="flex items-center justify-center border-b border-b-zinc-100/20 p-4 sm:hidden">
       <MobileSidebar user={user} />
 
       <Link href="/" className="-ml-10 mr-auto">
