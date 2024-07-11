@@ -30,7 +30,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="h-full w-full overflow-y-scroll">
+    <div className="w-full">
       <Link
         className={buttonVariants({
           className: "absolute bottom-4 right-4 shadow-lg sm:hidden",

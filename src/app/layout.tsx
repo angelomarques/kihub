@@ -46,7 +46,7 @@ export default function RootLayout({ children, modal }: Props) {
             <div className="grid h-screen flex-1 grid-cols-1 sm:flex-initial sm:grid-cols-[120px,minmax(200px,600px),120px] lg:grid-cols-[320px,minmax(200px,600px),320px]">
               <Sidebar />
 
-              <div className="w-full border-x border-x-zinc-100/20">
+              <div className="h-screen w-full overflow-y-scroll border-x border-x-zinc-100/20">
                 <Header />
                 {children}
                 {modal}
