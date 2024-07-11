@@ -41,9 +41,9 @@ export default async function Home() {
         <PencilSquareIcon className="h-8 w-8" />
       </Link>
 
-      <PostForm className="hidden md:flex" user={user} />
-
       <HydrationBoundary state={dehydrate(queryClient)}>
+        <PostForm className="hidden md:flex" user={user} />
+
         <Posts />
       </HydrationBoundary>
     </div>
