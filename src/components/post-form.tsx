@@ -14,17 +14,18 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 import { UserAvatar } from "./user-avatar";
-import { useCreatePostMutation } from "@/service/posts";
+import { useCreatePostMutation, usePostsQuery } from "@/service/posts";
 import { useRouter } from "next/navigation";
 
 interface Props {
   user: UsersTable | null;
-  onSuccess?: () => void;
   className?: string;
 }
 
-export function PostForm({ user, onSuccess, className = "" }: Props) {
+export function PostForm({ user, className = "" }: Props) {
   const router = useRouter();
+
+  const { refetch: refetchPosts } = usePostsQuery();
 
   const {
     register,
@@ -39,12 +40,9 @@ export function PostForm({ user, onSuccess, className = "" }: Props) {
   const { mutate: createPost, isPending } = useCreatePostMutation({
     onSuccess: () => {
       reset();
+      refetchPosts();
 
-      if (onSuccess) {
-        onSuccess();
-      }
-
-      router.refresh();
+      router.push("/");
     },
     onError: (error) => {
       const { response } = error;

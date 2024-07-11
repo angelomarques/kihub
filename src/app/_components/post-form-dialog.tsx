@@ -6,7 +6,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { UsersTable } from "@/server/db/types";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 interface Props {
   user: UsersTable | null;
@@ -15,22 +14,10 @@ interface Props {
 export function PostFormDialog({ user }: Props) {
   const router = useRouter();
   const pathname = usePathname();
-  const [open, setOpen] = useState(true);
-
-  useEffect(() => {
-    if (pathname !== "/compose/post") {
-      router.refresh();
-      setOpen(false);
-    }
-  }, [pathname, router]);
-
-  function handleSuccess() {
-    router.push("/");
-    router.refresh();
-  }
+  const isOpen = pathname === "/compose/post";
 
   return (
-    <Dialog open={open}>
+    <Dialog open={isOpen} onOpenChange={() => router.back()}>
       <DialogContent>
         <Button
           className="ml-auto flex"
@@ -42,7 +29,7 @@ export function PostFormDialog({ user }: Props) {
           <span className="sr-only">Close</span>
         </Button>
 
-        <PostForm user={user} onSuccess={handleSuccess} />
+        <PostForm user={user} />
       </DialogContent>
     </Dialog>
   );
