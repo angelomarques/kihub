@@ -10,8 +10,6 @@ import { usePostsQuery } from "@/service/posts";
 export function Posts() {
   const { data: posts } = usePostsQuery();
 
-  console.log("posts", posts);
-
   if (!posts) return null;
 
   return posts.map((post) => <Post key={post.id} data={post} />);
