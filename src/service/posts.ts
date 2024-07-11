@@ -1,6 +1,11 @@
 import axios, { AxiosError } from "axios";
-import { useMutation, MutationOptions } from "@tanstack/react-query";
-import { PostsTable } from "@/server/db/types";
+import {
+  useMutation,
+  MutationOptions,
+  QueryOptions,
+  useQuery,
+} from "@tanstack/react-query";
+import { PostsTable, UsersTable } from "@/server/db/types";
 import { PostFormSchemaType } from "@/lib/schemas/post-form";
 
 export function useCreatePostMutation(
@@ -16,5 +21,24 @@ export function useCreatePostMutation(
       return data;
     },
     ...mutationOptions,
+  });
+}
+
+type PostsQueryResponse = (PostsTable & { author: UsersTable })[];
+
+export function usePostsQuery(
+  queryOptions?: Omit<
+    QueryOptions<PostsQueryResponse, AxiosError<string>>,
+    "queryKey" | "queryFn"
+  >,
+) {
+  return useQuery<PostsQueryResponse, AxiosError<string>>({
+    queryFn: async () => {
+      const { data } = await axios.get<PostsQueryResponse>("/api/posts");
+
+      return data;
+    },
+    queryKey: ["posts"],
+    ...queryOptions,
   });
 }

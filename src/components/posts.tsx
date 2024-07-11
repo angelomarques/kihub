@@ -1,8 +1,21 @@
+"use client";
+
 import { PostsTable, UsersTable } from "@/server/db/types";
 import { formatTimeAgoShort } from "@/utils/date";
 import { UserAvatar } from "./user-avatar";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
+import { usePostsQuery } from "@/service/posts";
+
+export function Posts() {
+  const { data: posts } = usePostsQuery();
+
+  console.log("posts", posts);
+
+  if (!posts) return null;
+
+  return posts.map((post) => <Post key={post.id} data={post} />);
+}
 
 interface Props {
   data: PostsTable & { author: UsersTable };
@@ -25,7 +38,7 @@ export function Post({ data }: Props) {
             <div className="flex gap-1 text-sm text-zinc-400">
               <p>@{data.author.username}</p>
               <p>·</p>
-              <p>{formatTimeAgoShort(data.createdAt)}</p>
+              <p>{formatTimeAgoShort(String(data.createdAt))}</p>
             </div>
           </div>
           <p className="mt-1 whitespace-pre-line">{data.content}</p>

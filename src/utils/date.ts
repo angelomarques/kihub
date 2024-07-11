@@ -5,7 +5,8 @@ import {
   differenceInSeconds,
 } from "date-fns";
 
-export const formatTimeAgoShort = (date: Date) => {
+export const formatTimeAgoShort = (dateString: string) => {
+  const date = new Date(dateString);
   const now = new Date();
   const seconds = differenceInSeconds(now, date);
   if (seconds < 60) return `${seconds}s`;

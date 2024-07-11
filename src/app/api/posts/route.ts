@@ -1,6 +1,7 @@
 import { PostFormSchema } from "@/lib/schemas/post-form";
 import { db } from "@/server/db";
 import { posts } from "@/server/db/schema";
+import { getPosts } from "@/server/posts/queries";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { ZodError } from "zod";
 
@@ -26,6 +27,16 @@ export async function POST(request: Request) {
       return new Response(JSON.stringify(error.flatten()), { status: 422 });
     }
 
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const posts = await getPosts();
+
+    return new Response(JSON.stringify(posts), { status: 200 });
+  } catch (error) {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
