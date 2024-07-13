@@ -1,5 +1,5 @@
 import { PostForm } from "@/components/post-form";
-import { Posts } from "@/components/posts";
+import { PostsList } from "@/components/posts/list";
 import { buttonVariants } from "@/components/ui/button";
 import { PostsWithAuthor } from "@/server/db/types";
 import { getPosts } from "@/server/posts/queries";
@@ -49,7 +49,7 @@ export default async function Home() {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PostForm className="hidden md:flex" user={user} />
 
-        <Posts />
+        <PostsList />
       </HydrationBoundary>
     </div>
   );
