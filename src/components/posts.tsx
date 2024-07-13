@@ -6,13 +6,26 @@ import { UserAvatar } from "./user-avatar";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
 import { usePostsQuery } from "@/service/posts";
+import { LoadingSpinner } from "@/assets/loading-spinner";
 
 export function Posts() {
-  const { data: posts } = usePostsQuery();
+  const { data: posts, isFetchingNextPage } = usePostsQuery();
 
   if (!posts) return null;
 
-  return posts.map((post) => <Post key={post.id} data={post} />);
+  return (
+    <>
+      {posts.pages.map((page) =>
+        page.map((post) => <Post key={post.id} data={post} />),
+      )}
+
+      {isFetchingNextPage && (
+        <div className="flex justify-center py-2">
+          <LoadingSpinner fill="white" />
+        </div>
+      )}
+    </>
+  );
 }
 
 interface Props {

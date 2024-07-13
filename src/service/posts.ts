@@ -1,12 +1,13 @@
-import axios, { AxiosError } from "axios";
-import {
-  useMutation,
-  MutationOptions,
-  QueryOptions,
-  useQuery,
-} from "@tanstack/react-query";
-import { PostsTable, UsersTable } from "@/server/db/types";
 import { PostFormSchemaType } from "@/lib/schemas/post-form";
+import { PostsTable, PostsWithAuthor } from "@/server/db/types";
+import {
+  InfiniteData,
+  MutationOptions,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useMutation,
+} from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
 export function useCreatePostMutation(
   mutationOptions: Omit<
@@ -24,21 +25,28 @@ export function useCreatePostMutation(
   });
 }
 
-type PostsQueryResponse = (PostsTable & { author: UsersTable })[];
-
 export function usePostsQuery(
   queryOptions?: Omit<
-    QueryOptions<PostsQueryResponse, AxiosError<string>>,
-    "queryKey" | "queryFn"
+    UseInfiniteQueryOptions<
+      PostsWithAuthor[],
+      AxiosError<string>,
+      InfiniteData<PostsWithAuthor[]>
+    >,
+    "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
   >,
 ) {
-  return useQuery<PostsQueryResponse, AxiosError<string>>({
-    queryFn: async () => {
-      const { data } = await axios.get<PostsQueryResponse>("/api/posts");
+  return useInfiniteQuery({
+    queryFn: async ({ pageParam = 1 }) => {
+      const { data } = await axios.get<PostsWithAuthor[]>("/api/posts", {
+        params: { page: pageParam },
+      });
 
       return data;
     },
     queryKey: ["posts"],
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length ? allPages.length + 1 : 1,
     ...queryOptions,
   });
 }

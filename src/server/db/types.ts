@@ -7,3 +7,5 @@ export type UsersTable = NonNullable<
 export type PostsTable = NonNullable<
   Awaited<ReturnType<(typeof db)["query"]["posts"]["findFirst"]>>
 >;
+
+export type PostsWithAuthor = PostsTable & { author: UsersTable };

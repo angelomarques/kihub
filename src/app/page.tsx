@@ -1,12 +1,14 @@
 import { PostForm } from "@/components/post-form";
 import { Posts } from "@/components/posts";
 import { buttonVariants } from "@/components/ui/button";
+import { PostsWithAuthor } from "@/server/db/types";
 import { getPosts } from "@/server/posts/queries";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
   dehydrate,
   HydrationBoundary,
+  InfiniteData,
   QueryClient,
 } from "@tanstack/react-query";
 import type { Metadata } from "next";
@@ -25,7 +27,10 @@ export default async function Home() {
     queryKey: ["posts"],
     queryFn: async () => {
       const posts = await getPosts();
-      return posts;
+
+      return { pages: [posts], pageParams: [1] } as InfiniteData<
+        PostsWithAuthor[]
+      >;
     },
   });
 
