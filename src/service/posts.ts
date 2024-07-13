@@ -46,7 +46,7 @@ export function usePostsQuery(
     queryKey: ["posts"],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
-      lastPage.length ? allPages.length + 1 : 1,
+      lastPage.length ? allPages.length + 1 : undefined,
     ...queryOptions,
   });
 }

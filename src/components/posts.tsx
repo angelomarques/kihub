@@ -7,16 +7,44 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
 import { usePostsQuery } from "@/service/posts";
 import { LoadingSpinner } from "@/assets/loading-spinner";
+import { forwardRef, useCallback, useRef } from "react";
 
 export function Posts() {
-  const { data: posts, isFetchingNextPage } = usePostsQuery();
+  const {
+    data: posts,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    isFetching,
+  } = usePostsQuery();
+  const observer = useRef<IntersectionObserver>();
+  const isLoading = isFetchingNextPage || isFetching;
+
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isLoading) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetching) {
+          fetchNextPage();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isFetching, isLoading],
+  );
 
   if (!posts) return null;
 
   return (
     <>
       {posts.pages.map((page) =>
-        page.map((post) => <Post key={post.id} data={post} />),
+        page.map((post) => (
+          <Post key={post.id} data={post} ref={lastElementRef} />
+        )),
       )}
 
       {isFetchingNextPage && (
@@ -32,9 +60,12 @@ interface Props {
   data: PostsTable & { author: UsersTable };
 }
 
-export function Post({ data }: Props) {
+const Post = forwardRef<HTMLDivElement, Props>(function Post({ data }, ref) {
   return (
-    <article className="cursor-pointer border-b border-b-zinc-100/20 px-4 py-3 hover:bg-zinc-100/10">
+    <article
+      className="cursor-pointer border-b border-b-zinc-100/20 px-4 py-3 hover:bg-zinc-100/10"
+      ref={ref}
+    >
       <div className="flex gap-2">
         <UserAvatar
           picture={data.author.picture}
@@ -65,4 +96,4 @@ export function Post({ data }: Props) {
       </div>
     </article>
   );
-}
+});
