@@ -41,6 +41,11 @@ export const users = createTable(
   }),
 );
 
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts),
+  likes: many(likes),
+}));
+
 export const posts = createTable(
   "posts",
   {
@@ -51,21 +56,45 @@ export const posts = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }),
-    likes: integer("likes").default(0).notNull(),
   },
   (example) => ({
     authorIndex: index("author_id_idx").on(example.authorId),
   }),
 );
 
-export const usersRelations = relations(users, ({ many }) => ({
-  posts: many(posts),
-}));
-
-export const postsRelations = relations(posts, ({ one }) => ({
+export const postsRelations = relations(posts, ({ one, many }) => ({
   author: one(users, {
     fields: [posts.authorId],
     references: [users.id],
+  }),
+  likes: many(likes),
+}));
+
+export const likes = createTable(
+  "likes",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    postId: integer("post_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+  },
+  (example) => ({
+    userIndex: index("user_id_idx").on(example.userId),
+    postIndex: index("post_id_idx").on(example.postId),
+  }),
+);
+
+export const likesRelations = relations(likes, ({ one }) => ({
+  user: one(users, {
+    fields: [likes.userId],
+    references: [users.id],
+  }),
+  post: one(posts, {
+    fields: [likes.postId],
+    references: [posts.id],
   }),
 }));
 
