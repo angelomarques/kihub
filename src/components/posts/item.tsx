@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { UserAvatar } from "../user-avatar";
 import Link from "next/link";
 import clsx from "clsx";
+import { likePost } from "@/server/likes/mutations";
 
 interface Props {
   data: PostsTable & { author: UsersTable };
@@ -35,6 +36,8 @@ export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
 });
 
 function PostItemContent({ data }: Props) {
+  const likePostWithPostId = likePost.bind(null, data.id);
+
   return (
     <div className="flex gap-2">
       <UserAvatar
@@ -56,11 +59,13 @@ function PostItemContent({ data }: Props) {
         <p className="mt-1 whitespace-pre-line">{data.content}</p>
 
         <div className="ml-auto mt-2 flex w-max items-center gap-0.5">
-          <Button variant="ghost" size="icon">
-            <span className="sr-only">Like</span>
-            <HeartIcon className="h-4 w-4" />
-          </Button>
-          <p>{data.likes}</p>
+          <form action={likePostWithPostId}>
+            <Button variant="ghost" size="icon">
+              <span className="sr-only">Like</span>
+              <HeartIcon className="h-4 w-4" />
+            </Button>
+          </form>
+          <p>0</p>
         </div>
       </div>
     </div>

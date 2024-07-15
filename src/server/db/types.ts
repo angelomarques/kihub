@@ -1,11 +1,7 @@
-import { db } from ".";
+import { posts, users } from "./schema";
 
-export type UsersTable = NonNullable<
-  Awaited<ReturnType<(typeof db)["query"]["users"]["findFirst"]>>
->;
+export type UsersTable = typeof users.$inferSelect;
 
-export type PostsTable = NonNullable<
-  Awaited<ReturnType<(typeof db)["query"]["posts"]["findFirst"]>>
->;
+export type PostsTable = typeof posts.$inferSelect;
 
 export type PostsWithAuthor = PostsTable & { author: UsersTable };
