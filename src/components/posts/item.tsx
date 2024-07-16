@@ -1,15 +1,15 @@
-import { PostsTable, UsersTable } from "@/server/db/types";
+import { PostsWithAuthorAndLikesCount } from "@/server/db/types";
+import { likePost } from "@/server/likes/mutations";
 import { formatTimeAgoShort } from "@/utils/date";
+import clsx from "clsx";
 import { HeartIcon } from "lucide-react";
+import Link from "next/link";
 import { forwardRef } from "react";
 import { Button } from "../ui/button";
 import { UserAvatar } from "../user-avatar";
-import Link from "next/link";
-import clsx from "clsx";
-import { likePost } from "@/server/likes/mutations";
 
 interface Props {
-  data: PostsTable & { author: UsersTable };
+  data: PostsWithAuthorAndLikesCount;
   isInternalPage?: boolean;
 }
 
@@ -65,7 +65,7 @@ function PostItemContent({ data }: Props) {
               <HeartIcon className="h-4 w-4" />
             </Button>
           </form>
-          <p>0</p>
+          <p>{data.likesCount}</p>
         </div>
       </div>
     </div>
