@@ -6,6 +6,6 @@ export type PostsTable = typeof posts.$inferSelect;
 
 export type PostsWithAuthor = PostsTable & { author: UsersTable };
 
-export type PostsWithAuthorAndLikesCount = PostsWithAuthor & {
+export type PostListQueryType = PostsWithAuthor & {
   likesCount: number;
-};
+} & { hasUserLiked?: boolean };

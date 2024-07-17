@@ -1,5 +1,5 @@
 import { PostFormSchemaType } from "@/lib/schemas/post-form";
-import { PostsTable, PostsWithAuthorAndLikesCount } from "@/server/db/types";
+import { PostsTable, PostListQueryType } from "@/server/db/types";
 import {
   InfiniteData,
   MutationOptions,
@@ -28,21 +28,18 @@ export function useCreatePostMutation(
 export function usePostsQuery(
   queryOptions?: Omit<
     UseInfiniteQueryOptions<
-      PostsWithAuthorAndLikesCount[],
+      PostListQueryType[],
       AxiosError<string>,
-      InfiniteData<PostsWithAuthorAndLikesCount[]>
+      InfiniteData<PostListQueryType[]>
     >,
     "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
   >,
 ) {
   return useInfiniteQuery({
     queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await axios.get<PostsWithAuthorAndLikesCount[]>(
-        "/api/posts",
-        {
-          params: { page: pageParam },
-        },
-      );
+      const { data } = await axios.get<PostListQueryType[]>("/api/posts", {
+        params: { page: pageParam },
+      });
 
       return data;
     },

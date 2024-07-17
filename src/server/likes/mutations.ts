@@ -4,8 +4,11 @@ import { and, eq } from "drizzle-orm";
 import { db } from "../db";
 import { likes } from "../db/schema";
 import { getAuthenticatedUser } from "../users/queries";
+import { RequestStatusType } from "../types";
 
-export async function likePost(postId: number) {
+export async function likePost(
+  postId: number,
+): Promise<{ status: RequestStatusType }> {
   const user = await getAuthenticatedUser();
 
   if (!user) {
