@@ -38,7 +38,7 @@ export async function GET(request: Request) {
     const posts = await getPosts(page);
 
     return new Response(JSON.stringify(posts), { status: 200 });
-  } catch (error) {
+  } catch (_error) {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
