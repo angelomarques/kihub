@@ -132,7 +132,7 @@ async function Sidebar() {
       {user ? (
         <div className="mt-auto flex items-center gap-2">
           <UserAvatar picture={user.picture} username={user.username} />
-          <div className="hidden lg:block">
+          <div className="hidden flex-1 lg:block">
             <Link
               href={`/${user.username}`}
               className="mt-1.5 block font-medium hover:underline"
