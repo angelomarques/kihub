@@ -1,6 +1,5 @@
 import { PostFormSchema } from "@/lib/schemas/post-form";
-import { db } from "@/server/db";
-import { posts } from "@/server/db/schema";
+import { createPost } from "@/server/posts/mutations";
 import { getPosts } from "@/server/posts/queries";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { ZodError } from "zod";
@@ -16,7 +15,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { content } = PostFormSchema.parse(body);
 
-    await db.insert(posts).values({
+    await createPost({
       authorId: user.id,
       content: content,
     });
