@@ -103,5 +103,5 @@ export async function getSinglePost(id: number) {
       picture: authorPicture,
       username: authorUsername,
     },
-  };
+  } as PostListQueryType;
 }
