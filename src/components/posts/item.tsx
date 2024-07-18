@@ -32,7 +32,7 @@ export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
       ref={ref}
     >
       {isInternalPage ? (
-        <PostItemContent data={data} />
+        <PostItemContent data={data} isInternalPage />
       ) : (
         <Link href={`/posts/${data.id}`}>
           <PostItemContent data={data} />
