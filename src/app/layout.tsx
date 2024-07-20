@@ -97,16 +97,17 @@ async function Sidebar() {
             </NavLink>
           </li>
 
-          <li>
-            <NavLink
-              href="/profile"
-              icon={<UserIcon className="h-10 w-10" />}
-              selectedIcon={<UserSolidIcon className="h-10 w-10" />}
-            >
-              Profile
-            </NavLink>
-          </li>
-
+          {user && (
+            <li>
+              <NavLink
+                href={`/users/${user.username}`}
+                icon={<UserIcon className="h-10 w-10" />}
+                selectedIcon={<UserSolidIcon className="h-10 w-10" />}
+              >
+                Profile
+              </NavLink>
+            </li>
+          )}
           <li>
             <LogoutLink className="flex w-fit items-center gap-5 rounded-xl px-5 py-3 text-lg hover:bg-zinc-600/20">
               <ArrowRightEndOnRectangleIcon className="h-10 w-10" />

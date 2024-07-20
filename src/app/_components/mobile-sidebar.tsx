@@ -89,21 +89,22 @@ export function MobileSidebar({ user }: Props) {
                   </Link>
                 </li>
 
-                <li>
-                  <Link
-                    href="/profile"
-                    className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20"
-                  >
-                    {isCurrentPath("/profile") ? (
-                      <UserSolidIcon className="h-6 w-6" />
-                    ) : (
-                      <UserIcon className="h-6 w-6" />
-                    )}
+                {user && (
+                  <li>
+                    <Link
+                      href={`/users/${user.username}`}
+                      className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20"
+                    >
+                      {isCurrentPath(`/users/${user.username}`) ? (
+                        <UserSolidIcon className="h-6 w-6" />
+                      ) : (
+                        <UserIcon className="h-6 w-6" />
+                      )}
 
-                    <span>Profile</span>
-                  </Link>
-                </li>
-
+                      <span>Profile</span>
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <LogoutLink className="flex items-center gap-5 px-3 py-3 text-lg hover:bg-zinc-600/20">
                     {isCurrentPath("/logout") ? (

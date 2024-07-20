@@ -20,3 +20,15 @@ export async function getAuthenticatedUser() {
 
   return user;
 }
+
+export async function getUserByUsername(username: string) {
+  const user = await db.query.users.findFirst({
+    where: (model, { eq }) => eq(model.username, username),
+  });
+
+  if (!user) {
+    return null;
+  }
+
+  return user;
+}
