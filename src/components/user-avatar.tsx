@@ -6,17 +6,28 @@ interface Props {
   picture?: string | null;
   username?: string;
   className?: string;
+  width?: number;
+  height?: number;
 }
 
-export function UserAvatar({ picture, username = "", className = "" }: Props) {
+export function UserAvatar({
+  picture,
+  username = "",
+  className = "",
+  width = 40,
+  height = 40,
+}: Props) {
   return (
-    <div className={clsx("h-10 w-10 overflow-hidden rounded-full", className)}>
+    <div
+      className={clsx("overflow-hidden rounded-full", className)}
+      style={{ width, height }}
+    >
       {picture ? (
         <Image
           src={picture}
           alt={username}
-          width={40}
-          height={40}
+          width={width}
+          height={height}
           className="object-contain object-center"
         />
       ) : (

@@ -26,7 +26,7 @@ export const users = createTable(
     email: varchar("email", { length: 256 }).unique(),
     firstName: varchar("first_name", { length: 256 }).notNull(),
     lastName: varchar("last_name", { length: 256 }).notNull(),
-    username: varchar("username", { length: 256 }).notNull(),
+    username: varchar("username", { length: 256 }).notNull().unique(),
     picture: varchar("picture", { length: 256 }),
 
     kindeId: varchar("kinde_id", { length: 256 }).notNull(),
@@ -35,6 +35,9 @@ export const users = createTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true }),
+
+    biography: varchar("biography", { length: 1024 }),
+    dateOfBirth: timestamp("date_of_birth", { withTimezone: true }),
   },
   (example) => ({
     nameIndex: index("name_idx").on(example.firstName),
