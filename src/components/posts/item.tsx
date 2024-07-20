@@ -11,21 +11,23 @@ import Link from "next/link";
 import { forwardRef, MouseEventHandler } from "react";
 import { Button } from "../ui/button";
 import { UserAvatar } from "../user-avatar";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { RequestStatusType } from "@/server/types";
 
 interface Props {
   data: PostListQueryType;
-  isInternalPage?: boolean;
+  revalidateKey?: string[];
 }
 
 export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
-  { data, isInternalPage = false },
+  { data, revalidateKey = [] },
   ref,
 ) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
+  const isInternalPage = pathname.startsWith("/posts");
 
   const likePostWithPostId = likePost.bind(null, data.id);
 
@@ -86,7 +88,9 @@ export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
                       if (isInternalPage) {
                         router.refresh();
                       } else {
-                        queryClient.invalidateQueries({ queryKey: ["posts"] });
+                        queryClient.invalidateQueries({
+                          queryKey: revalidateKey,
+                        });
                       }
 
                       if (data.status === "created") return "Post liked!";

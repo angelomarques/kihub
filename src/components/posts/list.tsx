@@ -39,7 +39,12 @@ export function PostsList() {
     <>
       {posts.pages.map((page) =>
         page.map((post) => (
-          <PostItem key={post.id} data={post} ref={lastElementRef} />
+          <PostItem
+            key={post.id}
+            data={post}
+            ref={lastElementRef}
+            revalidateKey={["posts"]}
+          />
         )),
       )}
 

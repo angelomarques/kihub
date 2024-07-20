@@ -43,7 +43,12 @@ export function UserPostsList({ username }: Props) {
     <>
       {posts.pages.map((page) =>
         page.map((post) => (
-          <PostItem key={post.id} data={post} ref={lastElementRef} />
+          <PostItem
+            key={post.id}
+            data={post}
+            ref={lastElementRef}
+            revalidateKey={["users", username, "posts"]}
+          />
         )),
       )}
 
