@@ -1,5 +1,6 @@
 import { Logo } from "@/assets/logo";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 import { UserAvatar } from "@/components/user-avatar";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import {
@@ -17,12 +18,11 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import { ReactNode } from "react";
 import { MobileSidebar } from "./_components/mobile-sidebar";
 import { NavLink } from "./_components/nav-link";
-import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "./_components/providers";
-import { ReactNode } from "react";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -81,9 +81,16 @@ async function Sidebar() {
 
   return (
     <aside className="hidden h-full flex-col bg-zinc-950 py-8 pl-6 sm:flex">
-      <Button variant="ghost" size="icon-lg" className="ml-4">
+      <Link
+        href="/"
+        className={buttonVariants({
+          className: "ml-4",
+          variant: "ghost",
+          size: "icon-lg",
+        })}
+      >
         <Logo className="h-10 w-10" />
-      </Button>
+      </Link>
 
       <nav className="mt-12">
         <ul>
