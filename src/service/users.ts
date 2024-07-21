@@ -1,8 +1,11 @@
-import { PostListQueryType } from "@/server/db/types";
+import { EditUserSchemaType } from "@/lib/schemas/users";
+import { PostListQueryType, UsersTable } from "@/server/db/types";
 import {
-  UseInfiniteQueryOptions,
   InfiniteData,
+  MutationOptions,
   useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  useMutation,
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
@@ -34,5 +37,21 @@ export function usePostsByUsernameQuery(
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length ? allPages.length + 1 : undefined,
     ...queryOptions,
+  });
+}
+
+export function useEditUserMutation(
+  mutationOptions: Omit<
+    MutationOptions<UsersTable, AxiosError<string>, EditUserSchemaType>,
+    "mutationFn"
+  >,
+) {
+  return useMutation<UsersTable, AxiosError<string>, EditUserSchemaType>({
+    mutationFn: async (payload) => {
+      const { data } = await axios.patch<UsersTable>("/api/users", payload);
+
+      return data;
+    },
+    ...mutationOptions,
   });
 }

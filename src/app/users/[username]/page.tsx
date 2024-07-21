@@ -1,5 +1,5 @@
 import { UserPostsList } from "@/components/posts/user-list";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
 import { PostsWithAuthor } from "@/server/db/types";
 import { getPostsByUsername } from "@/server/posts/queries";
@@ -16,6 +16,7 @@ import {
 } from "@tanstack/react-query";
 import { formatDate } from "date-fns";
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -67,7 +68,14 @@ export default async function UserPage({ params: { username } }: Props) {
                 <p className="mt-2 text-sm text-gray-500">@{user?.username}</p>
               </div>
 
-              {isOwner && <Button variant="outline">Edit profile</Button>}
+              {isOwner && (
+                <Link
+                  href={`/users/${user.username}/edit`}
+                  className={buttonVariants({ variant: "outline" })}
+                >
+                  Edit profile
+                </Link>
+              )}
             </div>
 
             <div className="flex items-center gap-4">

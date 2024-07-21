@@ -12,7 +12,12 @@ export async function PATCH(request: Request) {
 
   const userId = user.id;
   const body = await request.json();
-  const payload = EditUserSchema.parse(body);
+  const payload = EditUserSchema.parse({
+    ...(body ?? {}),
+    dateOfBirth: body?.dateOfBirth
+      ? new Date(body.dateOfBirth as string)
+      : undefined,
+  });
 
   try {
     const updated = await updateUser(userId, payload);

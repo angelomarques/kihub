@@ -16,7 +16,7 @@ export function useCreatePostMutation(
   >,
 ) {
   return useMutation<PostsTable, AxiosError<string>, PostFormSchemaType>({
-    mutationFn: async (payload: PostFormSchemaType) => {
+    mutationFn: async (payload) => {
       const { data } = await axios.post<PostsTable>("/api/posts", payload);
 
       return data;
