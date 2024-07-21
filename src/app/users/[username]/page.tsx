@@ -3,7 +3,10 @@ import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
 import { PostsWithAuthor } from "@/server/db/types";
 import { getPostsByUsername } from "@/server/posts/queries";
-import { getUserByUsername } from "@/server/users/queries";
+import {
+  getAuthenticatedUser,
+  getUserByUsername,
+} from "@/server/users/queries";
 import { CakeIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import {
   dehydrate,
@@ -26,8 +29,13 @@ export function generateMetadata({ params: { username } }: Props): Metadata {
 }
 
 export default async function UserPage({ params: { username } }: Props) {
+  const authenticatedUser = await getAuthenticatedUser();
   const user = await getUserByUsername(username);
   const queryClient = new QueryClient();
+
+  const isOwner = authenticatedUser
+    ? authenticatedUser.username === username
+    : false;
 
   if (!user) return notFound();
 
@@ -59,7 +67,7 @@ export default async function UserPage({ params: { username } }: Props) {
                 <p className="mt-2 text-sm text-gray-500">@{user?.username}</p>
               </div>
 
-              <Button variant="outline">Edit profile</Button>
+              {isOwner && <Button variant="outline">Edit profile</Button>}
             </div>
 
             <div className="flex items-center gap-4">
