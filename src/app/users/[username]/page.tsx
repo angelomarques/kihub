@@ -12,10 +12,17 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { formatDate } from "date-fns";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface Props {
   params: { username: string };
+}
+
+export function generateMetadata({ params: { username } }: Props): Metadata {
+  return {
+    title: `Kihub | @${username}`,
+  };
 }
 
 export default async function UserPage({ params: { username } }: Props) {
