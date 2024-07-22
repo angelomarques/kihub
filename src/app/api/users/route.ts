@@ -20,7 +20,12 @@ export async function PATCH(request: Request) {
   });
 
   try {
-    const updated = await updateUser(userId, payload);
+    const updated = await updateUser(userId, {
+      ...payload,
+      biography: payload.biography ?? null,
+      picture: payload.picture ?? null,
+      dateOfBirth: payload.dateOfBirth ?? null,
+    });
 
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {

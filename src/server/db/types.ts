@@ -1,16 +1,14 @@
 import { posts, users } from "./schema";
 
 export type UsersTable = typeof users.$inferSelect;
-export type UpdateUserPayload = Partial<
-  Pick<
-    UsersTable,
-    | "firstName"
-    | "lastName"
-    | "username"
-    | "biography"
-    | "picture"
-    | "dateOfBirth"
-  >
+export type UpdateUserPayload = Pick<
+  UsersTable,
+  | "firstName"
+  | "lastName"
+  | "username"
+  | "biography"
+  | "picture"
+  | "dateOfBirth"
 >;
 
 export type PostsTable = typeof posts.$inferSelect;

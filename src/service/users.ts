@@ -42,13 +42,24 @@ export function usePostsByUsernameQuery(
 
 export function useEditUserMutation(
   mutationOptions: Omit<
-    MutationOptions<UsersTable, AxiosError<string>, EditUserSchemaType>,
+    MutationOptions<
+      Pick<UsersTable, "username">,
+      AxiosError<string>,
+      EditUserSchemaType
+    >,
     "mutationFn"
   >,
 ) {
-  return useMutation<UsersTable, AxiosError<string>, EditUserSchemaType>({
+  return useMutation<
+    Pick<UsersTable, "username">,
+    AxiosError<string>,
+    EditUserSchemaType
+  >({
     mutationFn: async (payload) => {
-      const { data } = await axios.patch<UsersTable>("/api/users", payload);
+      const { data } = await axios.patch<Pick<UsersTable, "username">>(
+        "/api/users",
+        payload,
+      );
 
       return data;
     },

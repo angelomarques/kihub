@@ -2,11 +2,12 @@
 
 import { EditUserSchema, EditUserSchemaType } from "@/lib/schemas/users";
 import { cn } from "@/lib/utils";
+import { UsersTable } from "@/server/db/types";
 import { useEditUserMutation } from "@/service/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
@@ -24,21 +25,28 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Textarea } from "./ui/textarea";
 
-export function EditUserForm() {
+interface Props {
+  user: UsersTable;
+}
+
+export function EditUserForm({ user }: Props) {
   const router = useRouter();
-  const pathname = usePathname();
-  const usersPage = pathname.replace("/edit", "");
 
   const form = useForm<EditUserSchemaType>({
     resolver: zodResolver(EditUserSchema),
+    defaultValues: {
+      ...user,
+      biography: user.biography ?? undefined,
+      picture: user.picture ?? undefined,
+      dateOfBirth: user.dateOfBirth ?? undefined,
+    },
   });
-  console.log(form.formState.errors);
 
   const { mutate: editUser, isPending } = useEditUserMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       form.reset();
       toast.success("User updated");
-      router.push(usersPage);
+      router.push(`/users/${data.username}`);
     },
     onError: (error) => {
       const { response } = error;

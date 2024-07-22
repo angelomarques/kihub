@@ -13,10 +13,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
-  user: UsersTable | null;
+  user: UsersTable;
 }
 
-export function EditUserFormDialog() {
+export function EditUserFormDialog({ user }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const isOpen = pathname.includes("/edit");
@@ -38,7 +38,7 @@ export function EditUserFormDialog() {
           Update your profile
         </DialogDescription>
 
-        <EditUserForm />
+        <EditUserForm user={user} />
       </DialogContent>
     </Dialog>
   );
