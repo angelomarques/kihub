@@ -15,5 +15,5 @@ export default async function PostPage({ params: { id } }: Props) {
 
   if (!post) return notFound();
 
-  return <PostItem data={post} isInternalPage />;
+  return <PostItem data={post} />;
 }

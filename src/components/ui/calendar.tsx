@@ -1,17 +1,8 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import * as React from "react";
 import { DayPicker } from "react-day-picker";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "./button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./select";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -21,17 +12,17 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps & { onChange?: React.ChangeEventHandler<HTMLSelectElement> }) {
-  const handleCalendarChange = (
-    _value: string | number,
-    _e: React.ChangeEventHandler<HTMLSelectElement>,
-  ) => {
-    const _event = {
-      target: {
-        value: String(_value),
-      },
-    } as React.ChangeEvent<HTMLSelectElement>;
-    _e(_event);
-  };
+  // const handleCalendarChange = (
+  //   _value: string | number,
+  //   _e: React.ChangeEventHandler<HTMLSelectElement>,
+  // ) => {
+  //   const _event = {
+  //     target: {
+  //       value: String(_value),
+  //     },
+  //   } as React.ChangeEvent<HTMLSelectElement>;
+  //   _e(_event);
+  // };
 
   return (
     <DayPicker
