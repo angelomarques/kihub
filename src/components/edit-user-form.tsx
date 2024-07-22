@@ -1,13 +1,21 @@
 "use client";
 
-import { EditUserSchema, EditUserSchemaType } from "@/lib/schemas/users";
+import { LoadingSpinner } from "@/assets/loading-spinner";
+import {
+  EditUserSchema,
+  EditUserSchemaType,
+  UserUsernameSchema,
+} from "@/lib/schemas/users";
 import { cn } from "@/lib/utils";
 import { UsersTable } from "@/server/db/types";
 import { useEditUserMutation } from "@/service/users";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
@@ -23,7 +31,10 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { SearchInput } from "./ui/search-input";
 import { Textarea } from "./ui/textarea";
+
+type UsernameAvailability = "loading" | "available" | "unavailable";
 
 interface Props {
   user: UsersTable;
@@ -41,6 +52,52 @@ export function EditUserForm({ user }: Props) {
       dateOfBirth: user.dateOfBirth ?? undefined,
     },
   });
+
+  const [usernameAvailableStatus, setUsernameAvailableStatus] =
+    useState<UsernameAvailability>("available");
+
+  async function checkUsernameAvailability(username: string) {
+    try {
+      UserUsernameSchema.parse({ username });
+    } catch (_error) {
+      setUsernameAvailableStatus("unavailable");
+      form.setError("username", {
+        message: "Username is invalid",
+        type: "validate",
+      });
+      return;
+    }
+
+    if (username === user.username) {
+      setUsernameAvailableStatus("available");
+      form.clearErrors("username");
+      return;
+    }
+
+    try {
+      setUsernameAvailableStatus("loading");
+      const { data } = await axios.get<{ available: boolean }>(
+        `/api/users/${username}/available`,
+      );
+
+      if (data.available) {
+        setUsernameAvailableStatus("available");
+        form.clearErrors("username");
+      } else {
+        setUsernameAvailableStatus("unavailable");
+        form.setError("username", {
+          message: "Username is already taken",
+          type: "validate",
+        });
+      }
+    } catch (_error) {
+      setUsernameAvailableStatus("unavailable");
+      form.setError("username", {
+        message: "Could not check username availability",
+        type: "validate",
+      });
+    }
+  }
 
   const { mutate: editUser, isPending } = useEditUserMutation({
     onSuccess: (data) => {
@@ -64,21 +121,38 @@ export function EditUserForm({ user }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
-        <FormField
-          control={form.control}
-          name="username"
-          disabled={isPending}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="type your username" {...field} />
-              </FormControl>
-              <FormDescription>This is your public username.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex items-center gap-3">
+          <FormField
+            control={form.control}
+            name="username"
+            disabled={isPending}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <div className="flex items-center gap-3">
+                    <SearchInput
+                      onSearch={(query) => {
+                        checkUsernameAvailability(query);
+                      }}
+                      loading={usernameAvailableStatus === "loading"}
+                      placeholder="type your username"
+                      {...field}
+                      onChange={(e) => {
+                        setUsernameAvailableStatus("loading");
+                        field.onChange(e);
+                      }}
+                    />
+
+                    <AvailabilityStatus status={usernameAvailableStatus} />
+                  </div>
+                </FormControl>
+                <FormDescription>This is your public username.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
@@ -180,4 +254,15 @@ export function EditUserForm({ user }: Props) {
       </form>
     </Form>
   );
+}
+
+function AvailabilityStatus({ status }: { status: UsernameAvailability }) {
+  switch (status) {
+    case "loading":
+      return <LoadingSpinner fill="white" />;
+    case "available":
+      return <CheckCircleIcon className="h-6 w-6 text-green-500" />;
+    case "unavailable":
+      return <XCircleIcon className="h-6 w-6 text-red-500" />;
+  }
 }

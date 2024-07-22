@@ -32,3 +32,14 @@ export async function getUserByUsername(username: string) {
 
   return user;
 }
+
+export async function checkUsernameAvailability(username: string) {
+  const user = await db.query.users.findFirst({
+    columns: {
+      id: true,
+    },
+    where: (model, { eq }) => eq(model.username, username),
+  });
+
+  return !user;
+}

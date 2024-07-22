@@ -1,12 +1,18 @@
 import { SVGAttributes } from "lucide-react";
 
-interface Props extends SVGAttributes {}
+interface Props extends SVGAttributes {
+  size?: number;
+}
 
-export function LoadingSpinner({ fill = "#18181b", ...props }: Props) {
+export function LoadingSpinner({
+  fill = "#18181b",
+  size = 24,
+  ...props
+}: Props) {
   return (
     <svg
-      width="24"
-      height="24"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       fill={fill}
