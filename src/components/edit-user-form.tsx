@@ -248,7 +248,15 @@ export function EditUserForm({ user }: Props) {
           )}
         />
 
-        <Button type="submit" isLoading={isPending}>
+        <Button
+          type="submit"
+          isLoading={isPending}
+          disabled={
+            isPending ||
+            usernameAvailableStatus === "unavailable" ||
+            usernameAvailableStatus === "loading"
+          }
+        >
           Submit
         </Button>
       </form>

@@ -3,10 +3,6 @@ import {
   getAuthenticatedUser,
 } from "@/server/users/queries";
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export async function GET(
   _req: Request,
   { params }: { params: { username: string } },
@@ -21,8 +17,6 @@ export async function GET(
 
   try {
     const available = await checkUsernameAvailability(username);
-
-    await delay(5000);
 
     return new Response(JSON.stringify({ available }), { status: 200 });
   } catch (_error) {
