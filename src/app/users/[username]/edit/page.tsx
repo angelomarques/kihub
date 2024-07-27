@@ -1,6 +1,11 @@
 import { EditUserForm } from "@/components/edit-user-form";
 import { getAuthenticatedUser } from "@/server/users/queries";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Kihub | Update Profile",
+};
 
 interface Props {
   params: { username: string };
