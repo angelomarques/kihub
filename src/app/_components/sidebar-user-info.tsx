@@ -20,7 +20,7 @@ export function SidebarUserInfo({ username }: Props) {
       <UserAvatar picture={user.picture} username={user.username} />
       <div className="hidden flex-1 lg:block">
         <Link
-          href={`/${user.username}`}
+          href={`/users/${user.username}`}
           className="mt-1.5 block font-medium hover:underline"
         >
           {`${user.firstName} ${user.lastName}`}

@@ -42,7 +42,7 @@ export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
       })}
       ref={ref}
     >
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <div>
           <Link href={`/users/${data.author.username}`}>
             <UserAvatar
