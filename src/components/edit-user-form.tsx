@@ -29,6 +29,7 @@ import {
 import { Input } from "./ui/input";
 import { SearchInput } from "./ui/search-input";
 import { Textarea } from "./ui/textarea";
+import { useQueryClient } from "@tanstack/react-query";
 
 type UsernameAvailability = "loading" | "available" | "unavailable";
 
@@ -38,6 +39,7 @@ interface Props {
 
 export function EditUserForm({ user }: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<EditUserSchemaType>({
     resolver: zodResolver(EditUserSchema),
@@ -97,8 +99,11 @@ export function EditUserForm({ user }: Props) {
 
   const { mutate: editUser, isPending } = useEditUserMutation({
     onSuccess: (data) => {
-      form.reset();
       toast.success("User updated");
+      queryClient.invalidateQueries({ queryKey: ["users", data.username] });
+      queryClient.invalidateQueries({
+        queryKey: ["users", data.username, "posts"],
+      });
       router.push(`/users/${data.username}`);
     },
     onError: (error) => {

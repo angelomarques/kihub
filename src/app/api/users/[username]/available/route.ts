@@ -2,7 +2,6 @@ import {
   checkUsernameAvailability,
   getAuthenticatedUser,
 } from "@/server/users/queries";
-
 export async function GET(
   _req: Request,
   { params }: { params: { username: string } },

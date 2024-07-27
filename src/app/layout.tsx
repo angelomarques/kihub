@@ -1,8 +1,10 @@
 import { Logo } from "@/assets/logo";
 import { buttonVariants } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
-import { UserAvatar } from "@/components/user-avatar";
-import { getAuthenticatedUser } from "@/server/users/queries";
+import {
+  getAuthenticatedUser,
+  getUserByUsername,
+} from "@/server/users/queries";
 import {
   HomeIcon as HomeSolidIcon,
   UserIcon as UserSolidIcon,
@@ -22,7 +24,13 @@ import { ReactNode } from "react";
 import { MobileSidebar } from "./_components/mobile-sidebar";
 import { NavLink } from "./_components/nav-link";
 import { Providers } from "./_components/providers";
+import { SidebarUserInfo } from "./_components/sidebar-user-info";
 import "./globals.css";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -79,6 +87,19 @@ async function Header() {
 async function Sidebar() {
   const user = await getAuthenticatedUser();
 
+  const queryClient = new QueryClient();
+
+  if (user) {
+    await queryClient.prefetchQuery({
+      queryKey: ["users", user.username],
+      queryFn: async () => {
+        const response = await getUserByUsername(user.username);
+
+        return response;
+      },
+    });
+  }
+
   return (
     <aside className="hidden h-full flex-col bg-zinc-950 py-8 pl-6 sm:flex">
       <Link
@@ -107,7 +128,7 @@ async function Sidebar() {
           {user && (
             <li>
               <NavLink
-                href={`/users/${user.username}`}
+                href="/users/me"
                 icon={<UserIcon className="h-10 w-10" />}
                 selectedIcon={<UserSolidIcon className="h-10 w-10" />}
               >
@@ -138,18 +159,9 @@ async function Sidebar() {
       </nav>
 
       {user ? (
-        <div className="mt-auto flex items-center gap-2">
-          <UserAvatar picture={user.picture} username={user.username} />
-          <div className="hidden flex-1 lg:block">
-            <Link
-              href={`/${user.username}`}
-              className="mt-1.5 block font-medium hover:underline"
-            >
-              {`${user.firstName} ${user.lastName}`}
-            </Link>
-            <p className="mt-1 text-sm text-zinc-400">@{user.username}</p>
-          </div>
-        </div>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <SidebarUserInfo username={user.username} />
+        </HydrationBoundary>
       ) : (
         <LoginLink
           className={buttonVariants({ className: "my-4 mt-auto w-5/6" })}

@@ -33,7 +33,13 @@ export async function getUserByUsername(username: string) {
   return user;
 }
 
+const reservedUsernames = ["admin", "kihub", "me"];
+
 export async function checkUsernameAvailability(username: string) {
+  if (reservedUsernames.includes(username)) {
+    return false;
+  }
+
   const user = await db.query.users.findFirst({
     columns: {
       id: true,

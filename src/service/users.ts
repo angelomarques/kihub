@@ -6,6 +6,8 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
   useMutation,
+  useQuery,
+  UseQueryOptions,
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
@@ -64,5 +66,23 @@ export function useEditUserMutation(
       return data;
     },
     ...mutationOptions,
+  });
+}
+
+export function useUserByUsernameQuery(
+  username: string,
+  queryOptions?: Omit<
+    UseQueryOptions<UsersTable, AxiosError<string>, UsersTable>,
+    "queryKey" | "queryFn"
+  >,
+) {
+  return useQuery<UsersTable, AxiosError<string>, UsersTable>({
+    queryFn: async () => {
+      const { data } = await axios.get<UsersTable>(`/api/users/${username}`);
+
+      return data;
+    },
+    queryKey: ["users", username],
+    ...(queryOptions ?? {}),
   });
 }

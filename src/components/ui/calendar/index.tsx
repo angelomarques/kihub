@@ -146,8 +146,7 @@ function Calendar({
         //     </Select>
         //   );
         // },
-        MonthCaption: ({ calendarMonth }) => {
-          console.log(`calendarMonth`, calendarMonth);
+        MonthCaption: () => {
           return (
             <div className="flex gap-3 py-3">
               <MonthSelect
