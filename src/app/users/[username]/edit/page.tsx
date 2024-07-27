@@ -1,4 +1,5 @@
 import { EditUserForm } from "@/components/edit-user-form";
+import { PageHeader } from "@/components/page-header";
 import { getAuthenticatedUser } from "@/server/users/queries";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -20,6 +21,7 @@ export default async function EditUserPage({ params: { username } }: Props) {
 
   return (
     <div>
+      <PageHeader>Update Profile</PageHeader>
       <EditUserForm user={user} />
     </div>
   );

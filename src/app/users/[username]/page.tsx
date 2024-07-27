@@ -14,6 +14,7 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UserInfo } from "./user-info";
+import { PageHeader } from "@/components/page-header";
 
 interface Props {
   params: { username: string };
@@ -58,6 +59,8 @@ export default async function UserPage({ params: { username } }: Props) {
 
   return (
     <div className="w-full">
+      <PageHeader>Users</PageHeader>
+
       <HydrationBoundary state={dehydrate(queryClient)}>
         <UserInfo username={username} isOwner={isOwner} />
 

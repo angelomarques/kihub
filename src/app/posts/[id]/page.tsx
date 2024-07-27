@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/page-header";
 import { PostItem } from "@/components/posts/item";
 import { getSinglePost } from "@/server/posts/queries";
 import { Metadata } from "next";
@@ -20,5 +21,10 @@ export default async function PostPage({ params: { id } }: Props) {
 
   if (!post) return notFound();
 
-  return <PostItem data={post} />;
+  return (
+    <>
+      <PageHeader>Post</PageHeader>
+      <PostItem data={post} />
+    </>
+  );
 }
