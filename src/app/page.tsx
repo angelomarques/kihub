@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/page-header";
 import { PostForm } from "@/components/post-form";
 import { PostsList } from "@/components/posts/list";
 import { buttonVariants } from "@/components/ui/button";
@@ -45,6 +46,8 @@ export default async function Home() {
       >
         <PencilSquareIcon className="h-8 w-8" />
       </Link>
+
+      <PageHeader hasBackButton={false}>Home</PageHeader>
 
       <HydrationBoundary state={dehydrate(queryClient)}>
         <PostForm className="hidden md:flex" user={user} />
