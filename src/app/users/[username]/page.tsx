@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/page-header";
 import { UserPostsList } from "@/components/posts/user-list";
 import { PostsWithAuthor } from "@/server/db/types";
 import { getPostsByUsername } from "@/server/posts/queries";
@@ -14,7 +15,6 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UserInfo } from "./user-info";
-import { PageHeader } from "@/components/page-header";
 
 interface Props {
   params: { username: string };

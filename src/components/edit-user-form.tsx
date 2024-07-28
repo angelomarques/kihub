@@ -10,6 +10,7 @@ import { UsersTable } from "@/server/db/types";
 import { useEditUserMutation } from "@/service/users";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +30,6 @@ import {
 import { Input } from "./ui/input";
 import { SearchInput } from "./ui/search-input";
 import { Textarea } from "./ui/textarea";
-import { useQueryClient } from "@tanstack/react-query";
 
 type UsernameAvailability = "loading" | "available" | "unavailable";
 
