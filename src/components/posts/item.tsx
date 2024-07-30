@@ -96,7 +96,14 @@ export const PostItem = forwardRef<HTMLDivElement, Props>(function PostItem(
                       if (data.status === "created") return "Post liked!";
                       return "Post unliked!";
                     },
-                    error: "Could not like post",
+                    error: (error: Error) => {
+                      if (error.message === "Unauthorized") {
+                        toast.error("You need to be logged in to like a post");
+                        return;
+                      }
+
+                      return "Could not like post";
+                    },
                   });
                 }}
                 onClick={handleLikeFormClick}

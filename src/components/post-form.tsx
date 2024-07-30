@@ -46,6 +46,12 @@ export function PostForm({ user, className = "" }: Props) {
     },
     onError: (error) => {
       const { response } = error;
+
+      if (response?.status === 401) {
+        toast.error("You need to be logged in to create a post");
+        return;
+      }
+
       toast.error(response?.data ?? "Something went wrong");
     },
   });
