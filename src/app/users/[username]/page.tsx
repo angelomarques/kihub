@@ -16,10 +16,6 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UserInfo } from "./user-info";
 
-export const fetchCache = "force-no-store";
-export const revalidate = 0; // in seconds
-export const dynamic = "force-dynamic";
-
 interface Props {
   params: { username: string };
   searchParams: Record<string, string | string[] | undefined>;
@@ -42,16 +38,16 @@ export default async function UserPage({ params: { username } }: Props) {
   }
 
   const user = await getUserByUsername(usernameToQuery);
+  if (!user) return notFound();
+
   const queryClient = new QueryClient();
 
   const isOwner = authenticatedUser
-    ? authenticatedUser.username === usernameToQuery
+    ? authenticatedUser.username === user.username
     : false;
 
-  if (!user) return notFound();
-
   await queryClient.prefetchQuery({
-    queryKey: ["users", usernameToQuery, "posts"],
+    queryKey: ["users", username, "posts"],
     queryFn: async () => {
       const posts = await getPostsByUsername(usernameToQuery);
 
@@ -62,7 +58,7 @@ export default async function UserPage({ params: { username } }: Props) {
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["users", usernameToQuery],
+    queryKey: ["users", username],
     queryFn: async () => {
       const response = await getUserByUsername(user.username);
 
@@ -75,9 +71,9 @@ export default async function UserPage({ params: { username } }: Props) {
       <PageHeader>Users</PageHeader>
 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <UserInfo username={usernameToQuery} isOwner={isOwner} />
+        <UserInfo username={username} isOwner={isOwner} />
 
-        <UserPostsList username={usernameToQuery} />
+        <UserPostsList username={username} />
       </HydrationBoundary>
     </div>
   );

@@ -1,4 +1,7 @@
-import { getUserByUsername } from "@/server/users/queries";
+import {
+  getAuthenticatedUser,
+  getUserByUsername,
+} from "@/server/users/queries";
 
 export async function GET(
   _req: Request,
@@ -7,7 +10,10 @@ export async function GET(
   const { username } = params;
 
   try {
-    const user = await getUserByUsername(username);
+    const user =
+      username === "me"
+        ? await getAuthenticatedUser()
+        : await getUserByUsername(username);
 
     if (!user) {
       return new Response("Not Found", { status: 404 });

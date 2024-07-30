@@ -101,8 +101,12 @@ export function EditUserForm({ user }: Props) {
     onSuccess: (data) => {
       toast.success("User updated");
       queryClient.invalidateQueries({ queryKey: ["users", data.username] });
+      queryClient.invalidateQueries({ queryKey: ["users", "me"] });
       queryClient.invalidateQueries({
         queryKey: ["users", data.username, "posts"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
       });
       router.refresh();
       router.push(`/users/${data.username}`);

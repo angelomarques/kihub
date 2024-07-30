@@ -4,12 +4,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { useUserByUsernameQuery } from "@/service/users";
 import Link from "next/link";
 
-interface Props {
-  username: string;
-}
-
-export function SidebarUserInfo({ username }: Props) {
-  const { data: user } = useUserByUsernameQuery(username);
+export function SidebarUserInfo() {
+  const { data: user } = useUserByUsernameQuery("me");
 
   if (!user) {
     return null;

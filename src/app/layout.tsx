@@ -91,7 +91,7 @@ async function Sidebar() {
 
   if (user) {
     await queryClient.prefetchQuery({
-      queryKey: ["users", user.username],
+      queryKey: ["users", "me"],
       queryFn: async () => {
         const response = await getUserByUsername(user.username);
 
@@ -160,7 +160,7 @@ async function Sidebar() {
 
       {user ? (
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <SidebarUserInfo username={user.username} />
+          <SidebarUserInfo />
         </HydrationBoundary>
       ) : (
         <LoginLink
