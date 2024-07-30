@@ -37,7 +37,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   description:
     "Kihub is a blogging platform built with Next.js, Drizzle ORM, and Tailwind CSS.",
-  icons: ["/kihub.svg"],
+  icons: ["/logo.png"],
 };
 
 interface Props {
