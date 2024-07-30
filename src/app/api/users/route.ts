@@ -1,6 +1,7 @@
 import { EditUserSchema } from "@/lib/schemas/users";
 import { updateUser } from "@/server/users/mutations";
 import { getAuthenticatedUser } from "@/server/users/queries";
+import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
 export async function PATCH(request: Request) {
@@ -27,6 +28,8 @@ export async function PATCH(request: Request) {
       dateOfBirth: payload.dateOfBirth ?? null,
     });
 
+    revalidatePath("/users/[username]/page", "page");
+    revalidatePath("/users/[username]/layout", "layout");
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {
     if (error instanceof ZodError) {

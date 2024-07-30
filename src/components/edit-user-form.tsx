@@ -104,6 +104,7 @@ export function EditUserForm({ user }: Props) {
       queryClient.invalidateQueries({
         queryKey: ["users", data.username, "posts"],
       });
+      router.refresh();
       router.push(`/users/${data.username}`);
     },
     onError: (error) => {

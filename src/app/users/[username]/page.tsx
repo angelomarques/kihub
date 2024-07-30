@@ -16,8 +16,13 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { UserInfo } from "./user-info";
 
+export const fetchCache = "force-no-store";
+export const revalidate = 0; // in seconds
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: { username: string };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
 export function generateMetadata({ params: { username } }: Props): Metadata {
@@ -28,19 +33,27 @@ export function generateMetadata({ params: { username } }: Props): Metadata {
 
 export default async function UserPage({ params: { username } }: Props) {
   const authenticatedUser = await getAuthenticatedUser();
-  const user = await getUserByUsername(username);
+
+  let usernameToQuery = username;
+  if (usernameToQuery === "me") {
+    if (!authenticatedUser) return notFound();
+
+    usernameToQuery = authenticatedUser.username;
+  }
+
+  const user = await getUserByUsername(usernameToQuery);
   const queryClient = new QueryClient();
 
   const isOwner = authenticatedUser
-    ? authenticatedUser.username === username
+    ? authenticatedUser.username === usernameToQuery
     : false;
 
   if (!user) return notFound();
 
   await queryClient.prefetchQuery({
-    queryKey: ["users", username, "posts"],
+    queryKey: ["users", usernameToQuery, "posts"],
     queryFn: async () => {
-      const posts = await getPostsByUsername(username);
+      const posts = await getPostsByUsername(usernameToQuery);
 
       return { pages: [posts], pageParams: [1] } as InfiniteData<
         PostsWithAuthor[]
@@ -49,7 +62,7 @@ export default async function UserPage({ params: { username } }: Props) {
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["users", username],
+    queryKey: ["users", usernameToQuery],
     queryFn: async () => {
       const response = await getUserByUsername(user.username);
 
@@ -62,9 +75,9 @@ export default async function UserPage({ params: { username } }: Props) {
       <PageHeader>Users</PageHeader>
 
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <UserInfo username={username} isOwner={isOwner} />
+        <UserInfo username={usernameToQuery} isOwner={isOwner} />
 
-        <UserPostsList username={username} />
+        <UserPostsList username={usernameToQuery} />
       </HydrationBoundary>
     </div>
   );
