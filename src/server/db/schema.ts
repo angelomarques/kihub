@@ -10,6 +10,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { postsStatusEnum } from "./enums";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -53,6 +54,7 @@ export const posts = createTable(
   "posts",
   {
     id: serial("id").primaryKey(),
+    status: postsStatusEnum("status").default("pb").notNull(),
     content: varchar("content", { length: 1024 }).notNull(),
     authorId: integer("author_id").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
