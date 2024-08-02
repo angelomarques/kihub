@@ -24,6 +24,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { archivePost } from "@/server/posts/actions";
+import { usePostsQuery } from "@/service/posts";
 
 interface Props {
   data: PostListQueryType;
@@ -165,6 +166,7 @@ function ConfirmArchiveModal({
 
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { refetch: refetchPosts } = usePostsQuery();
 
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -202,6 +204,7 @@ function ConfirmArchiveModal({
                 success: (data: { status: RequestStatusType }) => {
                   if (isInternalPage) {
                     router.push("/");
+                    refetchPosts();
                   } else {
                     queryClient.invalidateQueries({
                       queryKey: revalidateKey,
