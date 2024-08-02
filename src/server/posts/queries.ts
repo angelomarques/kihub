@@ -1,4 +1,4 @@
-import { count, desc, eq, SQL, sql } from "drizzle-orm";
+import { and, count, desc, eq, not, SQL, sql } from "drizzle-orm";
 import { db } from "../db";
 import { likes, posts, users } from "../db/schema";
 import { PostListQueryType } from "../db/types";
@@ -28,6 +28,7 @@ export async function getPosts(page = 1) {
       ...hasUserLikedSelectQuery,
     })
     .from(posts)
+    .where(not(eq(posts.status, "ar")))
     .limit(pageSize)
     .offset((page - 1) * pageSize)
     .orderBy(desc(posts.createdAt))
@@ -80,7 +81,7 @@ export async function getSinglePost(id: number) {
       ...hasUserLikedSelectQuery,
     })
     .from(posts)
-    .where(eq(posts.id, id))
+    .where(and(eq(posts.id, id), not(eq(posts.status, "ar"))))
     .leftJoin(users, eq(posts.authorId, users.id))
     .leftJoin(likes, eq(posts.id, likes.postId))
     .groupBy(posts.id, users.id);
@@ -135,7 +136,7 @@ export async function getPostsByUsername(username: string, page = 1) {
     .orderBy(desc(posts.createdAt))
     .leftJoin(users, eq(posts.authorId, users.id))
     .leftJoin(likes, eq(posts.id, likes.postId))
-    .where(eq(users.username, username))
+    .where(and(eq(users.username, username), not(eq(posts.status, "ar"))))
     .groupBy(posts.id, users.id);
 
   const result = rows.map<Record<number, PostListQueryType>>((row) => {
