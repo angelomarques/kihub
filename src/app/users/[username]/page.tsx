@@ -73,7 +73,7 @@ export default async function UserPage({ params: { username } }: Props) {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <UserInfo username={username} isOwner={isOwner} />
 
-        <UserPostsList username={username} />
+        <UserPostsList allowArchive={isOwner} username={username} />
       </HydrationBoundary>
     </div>
   );

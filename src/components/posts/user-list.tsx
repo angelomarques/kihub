@@ -7,9 +7,10 @@ import { PostItem } from "./item";
 
 interface Props {
   username: string;
+  allowArchive: boolean;
 }
 
-export function UserPostsList({ username }: Props) {
+export function UserPostsList({ username, allowArchive }: Props) {
   const {
     data: posts,
     isFetchingNextPage,
@@ -48,6 +49,7 @@ export function UserPostsList({ username }: Props) {
             data={post}
             ref={lastElementRef}
             revalidateKey={["users", username, "posts"]}
+            allowArchive={allowArchive}
           />
         )),
       )}

@@ -1,1 +1,1 @@
-export type RequestStatusType = "deleted" | "created";
+export type RequestStatusType = "deleted" | "created" | "updated";

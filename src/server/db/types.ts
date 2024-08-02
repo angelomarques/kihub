@@ -19,3 +19,8 @@ export type PostsWithAuthor = PostsTable & { author: UsersTable };
 export type PostListQueryType = PostsWithAuthor & {
   likesCount: number;
 } & { hasUserLiked?: boolean };
+
+export enum PostsStatusEnumType {
+  PUBLISHED = "pb",
+  ARCHIVED = "ar",
+}
