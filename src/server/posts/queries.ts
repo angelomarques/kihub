@@ -77,6 +77,7 @@ export async function getSinglePost(id: number) {
       authorLastName: users.lastName,
       authorPicture: users.picture,
       authorUsername: users.username,
+      authorId: users.id,
       id: posts.id,
       ...hasUserLikedSelectQuery,
     })
@@ -93,12 +94,14 @@ export async function getSinglePost(id: number) {
     authorLastName,
     authorPicture,
     authorUsername,
+    authorId,
     ...rest
   } = rows[0];
 
   return {
     ...rest,
     author: {
+      id: authorId,
       firstName: authorFirstName,
       lastName: authorLastName,
       picture: authorPicture,

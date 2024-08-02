@@ -201,7 +201,7 @@ function ConfirmArchiveModal({
                 loading: "Archiving...",
                 success: (data: { status: RequestStatusType }) => {
                   if (isInternalPage) {
-                    router.push("/posts");
+                    router.push("/");
                   } else {
                     queryClient.invalidateQueries({
                       queryKey: revalidateKey,
