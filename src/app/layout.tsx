@@ -71,6 +71,7 @@ export default function RootLayout({ children, modal }: Props) {
 }
 
 async function Header() {
+  // It makes a direct request to the database and returns the data for the client.
   const user = await getAuthenticatedUser();
 
   return (

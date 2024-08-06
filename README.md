@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center"><img align="center" width="880" src="./.github/images/home.png" alt="Kihub Home Page"></p>
 
-## Getting Started
+# Kihub
+[Kihub](https://kihub.vercel.app/) is a Twitter clone project that allows users to authenticate, update their profiles, post messages, and like posts. This project leverages modern web development tools and practices to create a fast and user-friendly experience.
 
-First, run the development server:
+[kihub.vercel.app](https://kihub.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Table of Contents
+- [Technologies Used](#technologies-used) 
+- [Features](#features) 
+    - [React Server Components](#react-server-components)
+- [Contributing](#contributing)
+- [License](#license)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
+[![Technologies used](https://skillicons.dev/icons?i=ts,react,nextjs,tailwindcss,postgresql)](https://skillicons.dev)
+- React Query: For efficient data fetching and state management.
+- React Server Components: For SSR implementaition, better performance, and scalability. 
+- TailwindCSS: For styling.
+- Shadcn UI: For user interface components.
+- Drizzle ORM: For interacting with PostgreSQL database.
+- Kinde: For authentication.
+- Zod: For schema validation.
+- Next.js: For server-side rendering and building the frontend.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
+### React Server Components
+Server Components are a new type of Component that renders ahead of time, before bundling, in an environment separate from your client app or SSR server.
+<p align="center"><img align="center" width="680" src="./.github/images/rsc.png" alt="Kihub Home Page"></p>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contributing
+Feel free to submit issues or pull requests if you have suggestions or improvements.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+This project is licensed under the [MIT License](LICENSE).
