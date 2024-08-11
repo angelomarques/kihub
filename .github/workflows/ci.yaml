@@ -10,14 +10,12 @@ on:
 
 env:
   NODE_ENV: "production"
-
   KINDE_CLIENT_ID: "lorem ipsum"
   KINDE_CLIENT_SECRET: "lorem ipsum"
   KINDE_ISSUER_URL: "lorem ipsum"
   KINDE_SITE_URL: "lorem ipsum"
   KINDE_POST_LOGOUT_REDIRECT_URL: "lorem ipsum"
   KINDE_POST_LOGIN_REDIRECT_URL: "lorem ipsum"
-
   POSTGRES_URL: "lorem ipsum"
   POSTGRES_PRISMA_URL: "lorem ipsum"
   POSTGRES_URL_NO_SSL: "lorem ipsum"
