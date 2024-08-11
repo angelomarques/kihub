@@ -9,7 +9,23 @@ on:
       - main
 
 env:
-  DATABASE_URL: "https://fake.com"
+  NODE_ENV: "production"
+
+  KINDE_CLIENT_ID: "lorem ipsum"
+  KINDE_CLIENT_SECRET: "lorem ipsum"
+  KINDE_ISSUER_URL: "lorem ipsum"
+  KINDE_SITE_URL: "lorem ipsum"
+  KINDE_POST_LOGOUT_REDIRECT_URL: "lorem ipsum"
+  KINDE_POST_LOGIN_REDIRECT_URL: "lorem ipsum"
+
+  POSTGRES_URL: "lorem ipsum"
+  POSTGRES_PRISMA_URL: "lorem ipsum"
+  POSTGRES_URL_NO_SSL: "lorem ipsum"
+  POSTGRES_URL_NON_POOLING: "lorem ipsum"
+  POSTGRES_USER: "lorem ipsum"
+  POSTGRES_HOST: "lorem ipsum"
+  POSTGRES_PASSWORD: "lorem ipsum"
+  POSTGRES_DATABASE: "lorem ipsum"
 
 jobs:
   build:
