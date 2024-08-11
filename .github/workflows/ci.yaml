@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  NODE_ENV: "production"
+  NODE_ENV: "development"
   KINDE_CLIENT_ID: "lorem ipsum"
   KINDE_CLIENT_SECRET: "lorem ipsum"
   KINDE_ISSUER_URL: "lorem ipsum"
